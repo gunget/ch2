@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Application definition : 여기에 만든 앱을 등록해야 사용할 수 있음
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bookmark.apps.BookmarkConfig', #북마크라는 폴더의 앱스파일 내에 북마크컨픽 클래스.
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'mainsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], #초기설정1
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,8 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'ko-kr' #admin사이트 메뉴 한글 표시 시
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -118,3 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #초기설정2
+
+#파일 업로드 기능 개발할때 필요한 미디어 설정. 10장부터 사용예정
+MEDIA_URL = '/media/'
+MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')] #초기설정3
