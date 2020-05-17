@@ -20,4 +20,5 @@ class Bookmark(models.Model): #데이터베이스를 지칭하는 클래스. 장
 
     def __str__(self): #admin사이트나 장고쉘에서 테이블명을 보여줘야 하는데, __str__ 적용하지 않으면
                        #테이블명이 제대로 표시되지 않음(__str__:객체를 문자열로 표시하는 함수)
-        return self.title
+        return self.title #어디서든 Bookmark테이블의 객체를 호출하면 그 객체의 타이틀명을 보여줘라.
+        #return '%s %s' %(self.title, self.url)이면 객체를 불렀을 때 둘의 이름이 다 나올 것

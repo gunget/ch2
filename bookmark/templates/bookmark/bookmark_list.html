@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Bookmark List BYG</title>
+</head>
+<body>
+<div id="content">
+    <h1>Bookmark list</h1>
+    <ul>
+        {% for bookmark in object_list %}
+        <!-- object_list는 제네릭 뷰에서 DB를 조회해 자동으로 만들어서 넘긴 변수명 -->
+            <li><a href="{%url 'detail' bookmark.id %}">{{bookmark}}</a></li>
+        <!--url태그 {%url 'namespace:view-name', 변수1, 변수2...%> url패턴에서 url을 추출하는 태그.
+         url을 'bookmark/1/'처럼 하드코딩하지 않고, 'detail'이라는 패턴에서 url스트링을 추출해서 반영.
+         urlconf시 name(ex. detail)으로 지정했던 패턴에서 url추출. 링크 클릭시 그 url로 이동하도록.
+         변수를 포함해서. 함수형 view였다면 view파일의 이름도. name:view형식-->
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

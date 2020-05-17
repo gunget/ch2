@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Bookrmark Detail</title>
+</head>
+<body>
+<div id="content">
+    <h1>{{object.title}}</h1>
+    <!--object는 제네릭뷰에서 자동으로 DB를 조회해 만들어준 변수. 객체의 타이틀명이 표시됨 -->
+    <ul>
+        <li>URL: <a href="{{object.url}}">{{object.url}}</a></li>
+        <!--object의 url의 내용을 가져와서 표시한뒤 링크로 나타내라 -->
+    </ul>
+</div>
+</body>
+</html>
