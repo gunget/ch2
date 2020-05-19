@@ -17,6 +17,7 @@ from django.contrib import admin #기본적으로 로딩. admin싸이트 접속�
 from django.urls import path #기본적으로 로딩. path를 통해 보통은 접근
 from django.conf.urls import url #보통 프로젝트용 url과 앱용 url 두개가 있으나, 여기선 프로젝트용
                                  #하나로만 바로 conf할꺼라 필요
+
 from bookmark.views import BookmarkLV, BookmarkDV
 #view에서 정의한 클래스뷰들을 불러와서 url로 링크시켜야 해당 요구가 들어왔을때 링크해 줌
 

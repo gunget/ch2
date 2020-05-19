@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookmark.apps.BookmarkConfig', #북마크라는 폴더의 앱스파일 내에 북마크컨픽 클래스.
+    'bookmark.apps.BookmarkConfig',
+    'blog.apps.BlogConfig',#북마크라는 폴더의 앱스파일 내에 북마크컨픽 클래스.
 ]
 
 MIDDLEWARE = [

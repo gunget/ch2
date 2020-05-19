@@ -18,7 +18,8 @@ class Bookmark(models.Model): #데이터베이스를 지칭하는 클래스. 장
     url = models.URLField('url', unique=True) #컬럼의 별칭 'url'(Field.verbose_name).
     # url은 단 하나만 있어야 하므로 unique를 True로
 
-    def __str__(self): #admin사이트나 장고쉘에서 테이블명을 보여줘야 하는데, __str__ 적용하지 않으면
-                       #테이블명이 제대로 표시되지 않음(__str__:객체를 문자열로 표시하는 함수)
-        return self.title #어디서든 Bookmark테이블의 객체를 호출하면 그 객체의 타이틀명을 보여줘라.
-        #return '%s %s' %(self.title, self.url)이면 객체를 불렀을 때 둘의 이름이 다 나올 것
+    def __str__(self): #admin사이트나 장고쉘에서 모델(테이블)의 개별 객체(row요소)를 표시할 때, '이것은
+                   #어떤 객체다'라고 표시할 필요가 있는데(제목줄에 객체값을 쓰고, 아래 변경항목 나타낼 때)
+                   #대표적으로 뭐라고 쓸 것인가를 결정. (__str__)을 적용, 이를 문자로 나타내 줌
+        return self.title #어디서든 Bookmark테이블의 객체를 호출하면 그 객체의 타이틀값을 대표로 나타내라.
+        #return '%s %s' %(self.title, self.url) #이면 객체를 불렀을 때 둘의 이름이 다 나올 것
