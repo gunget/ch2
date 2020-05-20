@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin #기본적으로 로딩. admin싸이트 접속용도
 from django.urls import path #기본적으로 로딩. path를 통해 보통은 접근
-from django.conf.urls import url #보통 프로젝트용 url과 앱용 url 두개가 있으나, 여기선 프로젝트용
+from django.conf.urls import url, include #보통 프로젝트용 url과 앱용 url 두개가 있으나, 여기선 프로젝트용
                                  #하나로만 바로 conf할꺼라 필요
 
 from bookmark.views import BookmarkLV, BookmarkDV
@@ -29,12 +29,16 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls), #장고 conf파일의 url함수는 내부적으로 re모듈을 호출하는 듯.
                                       #url()의 첫번째 변수가 regex 즉 정규식임
                                       #여기서 바로 정규식을 사용함. ^ ~로 시작하는.
+    url(r'^bookmark/', include('bookmark.urls', namespace='bookmark')), #include 함수도 import해야함
+    #최근에 url()대신해 path()가 소개됨. 해당 url이 들어오면 bookmark앱의 urls파일로 가서 처리해라
+    url(r'^blog/', include('blog.urls', namespace='blog')), #include 함수도 import해야함
 
-    #Class-based view for bookmark 앱
-    url(r'^bookmark/$', BookmarkLV.as_view(), name='index'),# xx$ xx로 끝나야함
-    #원래는 view.view처리함수 형태가 되어야 하나, 장고의 제네릭(표준)뷰를 쓰기 위해 as_view 사용
-    #name은 이 url패턴을 뭐라고 부를 것인가를 정의하는 것
-    url(r'^bookmark/(?P<pk>\d+)/$', BookmarkDV.as_view(), name='detail'),
-    #bookmark/11~/형태의 url. ?p<>는 정규식 그룹명을 지정한 것. 뷰를 호출할 때 primary key가
-    #변수로 같이 넘겨짐. views.detal(request, pk)처럼.
+##bookmark를 단독으로 urlconf할때 썻던 코드
+    # #Class-based view for bookmark 앱
+    # url(r'^bookmark/$', BookmarkLV.as_view(), name='index'),# xx$ xx로 끝나야함
+    # #원래는 view.view처리함수 형태가 되어야 하나, 장고의 제네릭(표준)뷰를 쓰기 위해 as_view 사용
+    # #name은 이 url패턴을 뭐라고 부를 것인가를 정의하는 것
+    # url(r'^bookmark/(?P<pk>\d+)/$', BookmarkDV.as_view(), name='detail'),
+    # #bookmark/11~/형태의 url. ?p<>는 정규식 그룹명을 지정한 것. 뷰를 호출할 때 primary key가
+    # #변수로 같이 넘겨짐. views.detal(request, pk)처럼.
 ]

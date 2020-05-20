@@ -10,12 +10,16 @@
     <ul>
         {% for bookmark in object_list %}
         <!-- object_list는 제네릭 뷰에서 DB를 조회해 자동으로 만들어서 넘긴 변수명 -->
-            <li><a href="{%url 'detail' bookmark.id %}">{{bookmark}}</a></li>
-        <!--url태그 {%url 'namespace(:view-name)', 변수1, 변수2...%> url패턴에서 url을 추출하는 태그.
+            <li><a href="{%url 'bookmark:detail' bookmark.id %}">{{bookmark}}</a></li>
+<!-- url 2개로 분리전 <li><a href="{%url 'detail' bookmark.id %}">{{bookmark}}</a></li>-->
+        <!--url태그 {%url '앱명:패턴name', 변수1, 변수2...%> url패턴에서 url을 추출하는 태그.
+         (원래는 {%url 'namespace(:view-name)', 변수1, 변수2...%> view-name대신 패턴이름이 쓰이기도)
+         (앱명과 루트urls파일의 해당 앱의 include()-namespace를 같게해야 혼돈되지 않는다. bookmark:detail에서
+          bookmark가 앱의 명칭인지, include할때 썻던 namespace의 값인지는 불분명. 후자 같긴 함)
          url을 'bookmark/1/'처럼 하드코딩하지 않고, 'detail'이라는 패턴에서 url스트링을 추출해서 반영.
          urlconf시 name(ex. detail)으로 지정했던 패턴에서 url추출. 링크 클릭시 그 url로 이동하도록.
          변수를 포함해서. 그런데 다른 앱인데도 패턴의 명칭은 똑같을 수 있다. 이를 구분하기 위해 '앱명:패턴명'
-         형태로 담아서 호출하기도 한다. ex.위 'detail'은 'bookmark:detail'과 같다.-->
+         형태로 담아서 호출하기도 한다.-->
         {% endfor %}
     </ul>
 </div>
