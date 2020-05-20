@@ -37,7 +37,7 @@ class Post(models.Model):
         ordering = ('-modify_date',) #모델객체의 리스트 출력시 변경일 기준, 내림차순으로 표시되도록
 
     def __str__(self):
-        return self.title #어디서는 post테이블의 객체를 호출하면, 그 객체의 타이틀값을 대표로 표시하라.
+        return self.title #어디서는 post테이블의 객체를 호출하면, 그 객체의 타이틀값을 표시하라.
                           #단, __str__을 적용해 문자형태로 알기쉽게 표기
 
     def get_absolute_url(self): #slug가 삽입된 전체 url을 표시하는 함수
@@ -54,4 +54,4 @@ class Post(models.Model):
         #수정된 날짜 기준으로 다음 포스트를 반환하라
 
 
-# Create your models here.
+# 모델을 잡고 나면 앱-admin파일로 가서 이 모델이 admin사이트에서 어떻게 보일지를 세팅해줘야 함
