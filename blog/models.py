@@ -43,11 +43,12 @@ class Post(models.Model):
     def get_absolute_url(self): #slug가 삽입된 전체 url을 표시하는 함수
         return reverse('blog:post_detail', args=(self.slug,))
         #blog앱의 post_detail이란 패턴명의 url을 추출해서 반환하는데 변수에는 slug값을 넣어라.
-        #ex. blog/slug~
+        #ex. blog/post/slug~/
 
     def get_previous_post(self):
         return self.get_previous_by_modify_date()
-        #수정된 날짜 기준으로 이전 포스트를 반환하라
+        #수정된 날짜 기준으로 이전 포스트를 반환하라. 내장함수인 get_previous_by를 부분 수정해서
+        #수정된 목록기준으로 받을 수 있도록, get_previous_post라는 함수를 별도로 지정한 듯.
 
     def get_next_post(self):
         return self.get_next_by_modify_date()

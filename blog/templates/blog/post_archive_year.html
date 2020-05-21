@@ -1,0 +1,42 @@
+<!--archive에서 year부분을 눌렀을 때 나오는 html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Archive for Year</title>
+</head>
+<body>
+<h1>Post Archive for {{year|date:'Y'}}</h1>
+<!--year의 값은 urlconf에서 추출해서 넘겨주는 값-->
+<ul>
+    {% for date in date_list %}
+<!--data_list는 YearArchiveview를 상속받아 작성하면 자동으로 전달되는 컨텍스트 변수(DateQuerySet)-->
+<!--DB에 자료를 요청하면 장고가 sql로 매핑해서 조회한다음 이를 QuerySet이라는 자료형태로 넘겨준다. 이중
+날짜정보만 가지고 있는 리스트가 DateQuerySet이다. 이름이 date_list로 고정. 장고 라이브러리 참조-->
+    <li style="display:inline;">
+<!--display:inline은 다음의 내용을 한줄에 표시하라는 형식. ex) May, June, -->
+        <a href="{% url 'blog:post_month_archive' year|date:'Y' date|date:'b'%}">
+            Year-{{date|date:'F'}}</a>
+<!--year는 urlconf에서 넘겨온 값이고, date는 for의 변수로 날짜들이 입력된 부분.-->
+<!--        b는 소문자 3글자 월명. F는 월명 풀텍스트-->
+<!--{%url 패턴명 변수1, 변수2%}하면 순서대로 url에서 필요한 위치로 들어가는 듯. 특별히 변수명 맞출필요 없이.-->
+<!--ex) blog/2018/nov/-->
+    </li>
+    {% endfor %}
+</ul>
+<br>
+<div>
+    <ul>
+        {% for post in object_list%}
+<!--    default 컨텍스트 변수로 object_list를 받아 사용.-->
+        <li>
+            {{post.modify_date|date:"Y-m-d"}}&nbsp;&nbsp;&nbsp;
+<!--        post의 수정일을 특정형식으로 표시. &nbsp는 스페이스. 3칸 띄어씀-->
+            <a href="{{post.get_absolute_url}}"><strong>{{post.title}}</strong></a>
+<!--        목록을 제목으로 쭉 표시하되 상세 자료로 이동할 수 있도록 링크를 걸어줌. strong태그는 굵게=<b>-->
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
