@@ -1,12 +1,14 @@
 from django.conf.urls import url
 from blog.views import *
 
+app_name = 'blog' #루트 url에서 namespace로 지정한 이름. 꼭 써줘야 defualt url이 됨
+
 urlpatterns =[
     url(r'^$', PostLV.as_view(), name='index'),
-    # /. blog/에서 blog는 루트url에서 정의했으므로. url패턴의 이름은 blog:index가 됨
+    # /. blog/에서 blog는 namespace에서 지정한 부분
     url(r'^post/$', PostLV.as_view(), name='post_list'),
     #위와 동일. 패턴명만 다름
-    url(r'^post/(?P<slug>[-\w]+/$', PostDV.as_view(), name='post_detail'),
+    url(r'^post/(?P<slug>[-\w]+)/$', PostDV.as_view(), name='post_detail'),
     #\w는 문자+숫자. '-'가들어간 문자숫자가 하나이상. ex. post/django-example/
     url(r'^archive/$', PostAV.as_view(), name='post_archive'),
     # ex. archive/
