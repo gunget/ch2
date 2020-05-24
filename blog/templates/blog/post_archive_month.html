@@ -7,8 +7,7 @@
 </head>
 <body>
 <h1>Post Archive for {{month|date:'N, Y'}}</h1>
-<!--year, month의 값은 urlconf에서 추출해서 넘겨주는 값. N은 3글자 월명 첫자대문자. -->
-<!--month에서 어떻게 year값이 추출되는 지는 의문???-->
+<!-- month는 제네릭뷰에서 넘겨 준 값. datetime.date객체는 연월일 데이터가 다 들어 있어서 연월 추출 가능-->
 <div>
     <ul>
         {% for post in object_list%}
