@@ -1,0 +1,126 @@
+body {
+    font-family:"Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 12px;
+}
+/* body영역에 쓸 폰트 종류와 크기 지정 */
+
+/* page-structure */
+div#header { /*헤더 영역의 위치(position,top,left), 높이와 너비, 출력방식(table), 배경색 지정. css에서 #은 id=, .은 class= 의미 */
+    /*id선택자는 유일 요소에만, class선택자는 복수 요소에 스타일 적용. id가 class보다 상위 개념 */
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 30px;
+    width: 100%;
+    display: table;
+    background: orange;
+}
+
+div#menu { /*메뉴 영역의 위치(position, top, left), 높이와 너비, 출력방식(table, table-layout), 메뉴간 간격, 배경색 지정 */
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    height: 20px;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    border-spacing: 40px, 0px;
+    background: #ffa;
+    font-size: 8px;
+}
+
+div#content { /*내용이 들어갈 자리*/
+    position: absolute;
+    top: 70px;
+    left: 50px;
+    right: 50px;
+
+}
+
+div#footer { /*footer 영역의 위치(position, top, left), 상단 경계선 지정 */
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    right: 50px;
+    height: 30px;
+    border-top: 1px solid #ccc;
+}
+
+/*헤더 영역*/
+.maintitle { /*헤더영역을 둘로 나눠, 따로 적용. 세로정렬, 안쪽 여백 등 지정 */
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 20px;
+    color: #ffc;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.welcome { /*헤더영역을 둘로 나눠, 따로 적용. 세로정렬, 안쪽 여백 등 지정 */
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+    padding-right: 20px;
+    color: #ffc;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.welcome a:link, welcome a:visited { /*welcome 셀 영역의 링크의 글자색을 지정*/
+    color: white;
+}
+
+/* menu부분 */
+div#menu a:link, div#menu a:visited { /*menu 영역의 링크에 대한 글자색 지정*/
+    color: #36c;
+}
+
+div#menu > li { /*id menu 바로아래 list item 꾸미기*/
+    display: table-cell;
+    vertical-align: middle;
+    border: 2px solid #bbb;
+    border-radius: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/*pull-down menu */
+div#menu li ul { /*메뉴아래 list item 하위(드롭다운 메뉴)의 설정*/
+    display: none;
+    position: absolute;
+    margin: 0px;
+    padding: 10px, 10px, 5px, 10px;
+    list-style: none;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background: white;
+    z-index: 1;
+}
+
+div#menu li:hover ul { /* 메뉴 아래 리스트 아이템에 마우스 올려질 때 ul의 설정*/
+    display: block; /* 올려지면 펴져라*/
+}
+
+/*link setting*/
+a:link, a:visited {
+    color: #369;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/*table에 대한 스타일 지정*/
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    line-height: 18px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    padding: 5px 15px;
+    font-family:"Lucida Grande", Verdana, Arial, sans-serif;
+}

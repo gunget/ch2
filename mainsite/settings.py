@@ -14,7 +14,11 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+# __file__ 파일을 실행하면 해당 파일명이 들어오는 파일의 이름공간.
+#os.path.abspath(__file__)현재 실행파일의 절대경로 표시. ~~/ch2/mainsite/setting.py
+#os.path.dirname()은 해당위치의 디렉토리명만 얻어옴. 이를위해 마지막 '/'이후의 값은 떨굼.
+# ~~/ch2/mainsite. 위에선 이것을 한번 더 써서 마지막 디렉토리가 한 단계 위로 올라오도록 함
+# ~~/ch2. 결국 BASE_DIR = '~~/ch2'가 되는 것
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -122,8 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #초기설정2
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #초기설정2 ~~/ch2/static
 
 #파일 업로드 기능 개발할때 필요한 미디어 설정. 10장부터 사용예정
 MEDIA_URL = '/media/'
-MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')] #초기설정3
+MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')] #초기설정3 ~~/ch2/media

@@ -18,17 +18,20 @@ from django.urls import path #기본적으로 로딩. path를 통해 보통은 �
 from django.conf.urls import url, include #보통 프로젝트용 url과 앱용 url 두개가 있으나, 여기선 프로젝트용
                                  #하나로만 바로 conf할꺼라 필요
 
-from bookmark.views import BookmarkLV, BookmarkDV
+# from bookmark.views import BookmarkLV, BookmarkDV
 #view에서 정의한 클래스뷰들을 불러와서 url로 링크시켜야 해당 요구가 들어왔을때 링크해 줌
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 # ]
 
+from mainsite.views import HomeView #대문싸이트를 만들기 위한 view
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls), #장고 conf파일의 url함수는 내부적으로 re모듈을 호출하는 듯.
                                       #url()의 첫번째 변수가 regex 즉 정규식임
                                       #여기서 바로 정규식을 사용함. ^ ~로 시작하는.
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^bookmark/', include('bookmark.urls', namespace='bookmark')), #include 함수도 import해야함
     #최근에 url()대신해 path()가 소개됨. 해당 url이 들어오면 bookmark앱의 urls파일로 가서 처리해라
     url(r'^blog/', include('blog.urls', namespace='blog')), #include 함수도 import해야함
