@@ -7,12 +7,13 @@ body {
 /* page-structure */
 div#header { /*헤더 영역의 위치(position,top,left), 높이와 너비, 출력방식(table), 배경색 지정. css에서 #은 id=, .은 class= 의미 */
     /*id선택자는 유일 요소에만, class선택자는 복수 요소에 스타일 적용. id가 class보다 상위 개념 */
-    position: absolute;
+    position: absolute; /*절대좌표와 함께 위치지정. 아래 top, left가 이에 해당 */
     top: 0px;
     left: 0px;
     height: 30px;
     width: 100%;
-    display: table;
+    display: table;/*부모태그에 table을 선언하고(table-layout:fixed도), 자식태그에서 table-cell이라 선언하면 아이템들이 동일간격으로
+    표시 됨*/
     background: orange;
 }
 
@@ -23,9 +24,9 @@ div#menu { /*메뉴 영역의 위치(position, top, left), 높이와 너비, 출
     height: 20px;
     width: 100%;
     display: table;
-    table-layout: fixed;
-    border-spacing: 40px, 0px;
-    background: #ffa;
+    table-layout: fixed; /*테이블 요소의 간격을 일정하게 하라는 설정*/
+    border-spacing: 40px, 0px; /*인접한 셀의 테두리간 간격 지정. 수평, 수직 순*/
+    background: #ffa; /*이 영역의 배경색*/
     font-size: 8px;
 }
 
@@ -43,15 +44,17 @@ div#footer { /*footer 영역의 위치(position, top, left), 상단 경계선 �
     left: 50px;
     right: 50px;
     height: 30px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc; /*위쪽경계선: 굵기 스타일 색깔*/
 }
 
 /*헤더 영역*/
 .maintitle { /*헤더영역을 둘로 나눠, 따로 적용. 세로정렬, 안쪽 여백 등 지정 */
-    display: table-cell;
-    vertical-align: middle;
-    padding-left: 20px;
-    color: #ffc;
+    display: table-cell; /*둘로 나뉜 메인 타이틀 영역이 크기가 같도록 설정해줌*/
+    vertical-align: middle; /*수직정렬 중간*/
+    padding-left: 20px; /*css는 크게 선택과 배치에 관한 속성 제공. 이중 배치는 박스모델로 표현되는데,
+    박스모델은 content-padding-border-margin순으로 양파껍질처럼 안에서 밖으로 둘러쌓여 있다. 이 값의 변경을
+    통해 조화로운 배치를 이뤄낼 수 있다*/
+    color: #ffc; /*이 영역 글자의 색*/
     font-weight: bold;
     font-size: 16px;
 }
@@ -67,16 +70,21 @@ div#footer { /*footer 영역의 위치(position, top, left), 상단 경계선 �
 }
 
 .welcome a:link, welcome a:visited { /*welcome 셀 영역의 링크의 글자색을 지정*/
-    color: white;
+/*psedo-class를 이용한 스타일 적용. 이 순서대로 적용해야 정확이 적용됨. '태그:가상이벤트'형태로 사용. 예시 외 다수 존재
+class welcome의 방문전 링크 상태          .welcome a:link
+class welcome의 방문후 링크 상태          .welcome a:visited
+class welcome의 마우스 올렸을 때 링크상태   .welcome a:hover
+class welcome의 클릭했을때 링크상태        .welcome a:active*/
+    color: white; /*welcome 글자의 방문 전후 글자색을 흰색으로*/
 }
 
 /* menu부분 */
-div#menu a:link, div#menu a:visited { /*menu 영역의 링크에 대한 글자색 지정*/
+div#menu a:link, div#menu a:visited { /*menu 영역의 링크에 대한 글자색 지정. 의사클래스 활용*/
     color: #36c;
 }
 
-div#menu > li { /*id menu 바로아래 list item 꾸미기*/
-    display: table-cell;
+div#menu > li { /*id menu 바로아래 list item 꾸미기. '>'는 바로 하위의 선택자만 적용됨. 없었으면 그 아래 모든 li에 적용됨*/
+    display: table-cell; /*아이템들이 동일한 크기로 표시되도록 display설정함*/
     vertical-align: middle;
     border: 2px solid #bbb;
     border-radius: 25px;
@@ -86,35 +94,35 @@ div#menu > li { /*id menu 바로아래 list item 꾸미기*/
 
 /*pull-down menu */
 div#menu li ul { /*메뉴아래 list item 하위(드롭다운 메뉴)의 설정*/
-    display: none;
+    display: none; /*엘러먼트를 보이지 않게 하라*/
     position: absolute;
     margin: 0px;
     padding: 10px, 10px, 5px, 10px;
-    list-style: none;
+    list-style: none; /*표시할때 넘버나 심벌을 표시하지 말아라*/
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     background: white;
-    z-index: 1;
+    z-index: 1; /*화면상 위로 올라오는 표현(layer)을 위한 설정. 값이 클 수록 위로 올라옴*/
 }
 
 div#menu li:hover ul { /* 메뉴 아래 리스트 아이템에 마우스 올려질 때 ul의 설정*/
-    display: block; /* 올려지면 펴져라*/
+    display: block; /* 올려지면 블록형태로 표시하라*/
 }
 
 /*link setting*/
-a:link, a:visited {
+a:link, a:visited { /*모든 a태그에 가상선택자를 적용하라*/
     color: #369;
-    text-decoration: none;
+    text-decoration: none; /*글자 꾸미기는 적용하지 않는다*/
 }
 
-a:hover {
-    text-decoration: underline;
+a:hover { /*모든 a태그에 마우스를 올렸을 때*/
+    text-decoration: underline;/*밑줄이 표시되게 하라*/
 }
 
 /*table에 대한 스타일 지정*/
 table {
-    border-collapse: collapse;
+    border-collapse: collapse; /*표의 테두리와 셀사이의 간격을 없앤다*/
 }
 
 td, th {
@@ -122,5 +130,5 @@ td, th {
     border-bottom: 1px solid #eee;
     vertical-align: top;
     padding: 5px 15px;
-    font-family:"Lucida Grande", Verdana, Arial, sans-serif;
+    font-family:"Lucida Grande", Verdana, Arial, sans-serif; /*폰트로 쓸 폰트 종류선언*/
 }
