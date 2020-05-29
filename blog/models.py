@@ -12,6 +12,8 @@ from django.urls import reverse
 #'앱명:패턴명'을 넣어서 호출하면, 그것에 해당하는 url이 추출되어 장고에 제공된다.
 #reverse('blog:post_detail', kwargs={'id':10}) = blog앱의 detail이란 패턴명의 url을 추출하는데
 # id값은 10이다. = '/blog/10/'
+from tagging.fields import TagField
+
 
 @python_2_unicode_compatible
 class Post(models.Model):
@@ -29,6 +31,8 @@ class Post(models.Model):
     #날짜와 시간 기록하는 클래스. 생성 시 기록하도록 auto_now_add 활성화
     modify_date = models.DateTimeField('Modify Date', auto_now=True)
     #auto_now는 객체가 DB에 저장될 때 시각 자동기록. 즉 변경될 때 기록
+    tag = TagField()
+    #TagField는 CharField()를 상속받아서 디폴트로 max_length=255, black=True로 설정되어 있음
 
     class Meta:#필드속성 외에 필요한 테이블의 파라미터를 정의하기 위해, 내부클래스 선언(이또한 상속받는 것)
         verbose_name = 'post' #테이블의 별칭. 변수명은 상속받는 것 활용(내맘데로 짓는게 아님)

@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookmark.apps.BookmarkConfig',
     'blog.apps.BlogConfig',#북마크라는 폴더의 앱스파일 내에 북마크컨픽 클래스.
+    'tagging.apps.TaggingConfig',#lib/site pakage/에 가보면 django-tagging이 설치되었는데
+    #이를 프로젝트에 사용하려면 등록해야 함. 앱명이 tagging이고 패키지의 apps.py에 들어가서 앱에대한 정보를 보면
+    #TaggingConfig라는 클래스로 만들어져 있으므로 이를 등록해야 함
 ]
 
 MIDDLEWARE = [

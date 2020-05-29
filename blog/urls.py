@@ -21,4 +21,9 @@ urlpatterns =[
     # ex. 2012/nov/10/
     url(r'^today/$', PostTAV.as_view(), name='post_today_archive'),
     # ex. today/
+    url(r'^tag/$', TagTV.as_view(), name='tag_cloud'),
+    # ex. tag/
+    url(r'^tag/(?P<tag>[^/]+(?u))/$', PostTOL.as_view(), name='tagged_object_list'),
+    # ex. tag/tagname/
+    #[^/]+ : /이외의 문자가 하나이상 있다. (?u)앞의 구문을 유니코드로 인식해라(한글이 와도 인식되도록)
 ]
