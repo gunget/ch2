@@ -70,7 +70,7 @@ div#footer { /*footer 영역의 위치(position, top, left), 상단 경계선 �
 }
 
 .welcome a:link, welcome a:visited { /*welcome 셀 영역의 링크의 글자색을 지정*/
-/*psedo-class를 이용한 스타일 적용. 이 순서대로 적용해야 정확이 적용됨. '태그:가상이벤트'형태로 사용. 예시 외 다수 존재
+/*pseudo-class를 이용한 스타일 적용. 이 순서대로 적용해야 정확이 적용됨. '태그:가상이벤트'형태로 사용. 예시 외 다수 존재
 class welcome의 방문전 링크 상태          .welcome a:link
 class welcome의 방문후 링크 상태          .welcome a:visited
 class welcome의 마우스 올렸을 때 링크상태   .welcome a:hover
@@ -129,6 +129,6 @@ td, th {
     line-height: 18px;
     border-bottom: 1px solid #eee;
     vertical-align: top;
-    padding: 5px 15px;
+    padding: 5px 15px; /* 2개값만 주어지면 '상하', '좌우'로 적용된다*/
     font-family:"Lucida Grande", Verdana, Arial, sans-serif; /*폰트로 쓸 폰트 종류선언*/
 }

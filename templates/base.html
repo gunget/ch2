@@ -1,3 +1,5 @@
+<!--base.html로 사이트 전체의 Look&feel을 정하고 다른 곳에선
+이를 extends로 상속받아 활용하면 일관성있는 프론트엔드 제작 가능-->
 <!DOCTYPE html>
 <!--HTML5 준수: html의 업그레이드 버전으로 플러그인 없이 다양한 웹서비스를 가능하게 해주는 언어-->
 <html lang="ko">
@@ -6,12 +8,12 @@
     <title>{% block title %}Django Web Programming{% endblock %}</title>
     {#블록으로 지정된 부분을 extends로 확장해서 쓸 수 있음#}
     {#title, extrastyle, content, footer 총 4개의 block을 미리 지정해둠#}
-    {% load staticfiles %}
+    {% load static %}
 <!--static파일이란 img, css, jvscript처럼 응답할때 별도의 처리없이 그대로 보내주면 되는 파일들.-->
 <!--장고에서는 이미지나 업로드한 파일들은 MEDIA로, CSS나 JS파일들은 STATIC으로 따로 분류.-->
-    <!-- static태그를 쓰려면 staticfile을 로드해야함-->
+    <!-- static태그를 쓰려면 staticfile을 로드해야함(지금은 %load static%으로 바뀜)-->
     <!--%static%태그는 정적파일의 절대 url을 생성, 링크로 쓸 수 있게 함 -->
-    <link rel="stylesheet" type="text/css" href="{% static css/base.css %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% block extrastyle %}{% endblock %}"/>
 <!--외부에서 불러올 문서는 스타일시트고 타입은 css, 링크는 '특정경로'다. -->
 <!--특정경로는 setting.py에서 static파일의 위치로 지정해둔 위치가 됨. -->

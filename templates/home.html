@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}home.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+{% load static %}
+{% block extrastyle %}{% static "css/home.css" %}{% endblock %}
+
+{% block content %}
+<div id="content_home">
+    <div id="homeimg">
+        <a href="#"><img src="{% static 'img/django-actor-big.jpg' %}" style="height:256px;"/></a>
+<!--        이미지 위에 마우스를 올렸을 때 화살표가 손모양으로 바뀌도록(링크니까) 가짜 링크를 걸어주는 방식. 실무에서 흔히 사용-->
+<!--        이미지 태그 마지막의 '/'는 단독 태그 사용시 마지막을 알리는 표시. html5에서는 안써도 됨 -->
+        <h4 style="margin:0;">This is Django Powered Web Site.</h4>
+    </div>
+
+    <hr style="margin: 5px 0;">
+<!--    hr태그는 수평선 긋기. html5에서는 의미적으로 구분하는 용도로 많이 쓰인다고 함. 닫는태그 없음-->
+<!--    마진영역에 상하는 5px, 좌우는 0px을 지정-->
+
+    <h2>Select Application</h2>
+    <table id="applist">
+        <tr>
+            <td><b><i><a href="#">Bookmark</a></i></b></td>
+            <td>You can write your own post and share to others. I stronglly recomend you to
+            use another tools like the bootstrap for making front end rather than to code by yourself</td>
+            <td class="Edit"><i><a href="#">Add</a></i></td>
+            <td class="Edit"><i><a href="#">Change</a></i></td>
+        </tr>
+
+        <tr>
+            <td><b><i><a href="#">Blog</a></i></b></td>
+            <td>You can write your own post and share to others. I stronglly recomend you to
+            use another tools like the bootstrap for making front end rather than to code by yourself</td>
+            <td class="Edit"><i><a href="#">Add</a></i></td>
+            <td class="Edit"><i><a href="#">Change</a></i></td>
+        </tr>
+
+        <tr>
+            <td><b><i><a href="#">Photo</a></i></b></td>
+            <td>You can write your own post and share to others. I stronglly recomend you to
+            use another tools like the bootstrap for making front end rather than to code by yourself</td>
+            <td class="Edit"><i><a href="#">Add</a></i></td>
+            <td class="Edit"><i><a href="#">Change</a></i></td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div id="footer">
+    &copy; TGK 2020
+<!--    &copy;는 저작권표시하는 특수 문자-->
+</div>
+{% endblock %}

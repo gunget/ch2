@@ -1,0 +1,13 @@
+div#content_home{
+    position: absolute;
+    top: 80px;
+    left: 110px;
+    right: 110px;
+}
+
+div#homeimg{
+    background: #ddd;
+    padding: 5px 0 1px 0;
+/*  box속성 4인자의 경우 '위-좌-아래-우' 순으로 적용 됨*/
+    text-align: center;
+}
