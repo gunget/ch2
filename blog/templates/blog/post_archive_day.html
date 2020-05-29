@@ -1,28 +1,29 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}post_archive_day.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% block content %}
+    <div id="content">
+        <h1>Post Archive for {{day|date:'N d, Y'}}</h1>
+        <!--day는 제네릭뷰에서 넘겨주는 변수. N은 3글자 월명 첫자대문자. d는 숫자 일자 -->
+        <!--day는 datetime.date객체로 연월일 데이터가 다 들어 있음-->
+        <div>
+            <ul>
+                {% for post in object_list%}
+        <!--    default 컨텍스트 변수로 object_list를 받아 사용.-->
+                <li>
+                    {{post.modify_date|date:"Y-m-d"}}&nbsp;&nbsp;&nbsp;
+        <!--        post의 수정일을 특정형식으로 표시. &nbsp는 스페이스. 3칸 띄어씀-->
+                    <a href="{{post.get_absolute_url}}"><strong>{{post.title}}</strong></a>
+        <!--        목록을 제목으로 쭉 표시하되 상세 자료로 이동할 수 있도록 링크를 걸어줌. strong태그는 굵게=<b>-->
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
 <!--연월일이 지정된 url이 들어왔을 때 표시하는 html-->
 <!--TodayArchiveView와 DayArchiveView의 디폴트 html명은 둘다 모델명_archive_day로 같다. 둘다 안만들어도 됨-->
 <!--만들려면 어느 하나의 제네릭뷰에서 template_name 속성에 다른 이름을 지어주면 됨-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post Archive for Day</title>
-</head>
-<body>
-<h1>Post Archive for {{day|date:'N d, Y'}}</h1>
-<!--day는 제네릭뷰에서 넘겨주는 변수. N은 3글자 월명 첫자대문자. d는 숫자 일자 -->
-<!--day는 datetime.date객체로 연월일 데이터가 다 들어 있음-->
-<div>
-    <ul>
-        {% for post in object_list%}
-<!--    default 컨텍스트 변수로 object_list를 받아 사용.-->
-        <li>
-            {{post.modify_date|date:"Y-m-d"}}&nbsp;&nbsp;&nbsp;
-<!--        post의 수정일을 특정형식으로 표시. &nbsp는 스페이스. 3칸 띄어씀-->
-            <a href="{{post.get_absolute_url}}"><strong>{{post.title}}</strong></a>
-<!--        목록을 제목으로 쭉 표시하되 상세 자료로 이동할 수 있도록 링크를 걸어줌. strong태그는 굵게=<b>-->
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-</body>
-</html>

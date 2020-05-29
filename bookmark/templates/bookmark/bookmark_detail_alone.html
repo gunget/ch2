@@ -1,9 +1,10 @@
-{% extends 'base.html' %}
-<!-- base.html을 상속 받음. 인용부호 필수-->
-{% block title%}Django Bookmark Detail{% endblock %}
-<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Bookrmark Detail</title>
+</head>
+<body>
 <div id="content">
     <h1>{{object.title}}</h1>
     <!--object는 제네릭뷰에서 자동으로 DB를 조회해 만들어준 변수. 객체의 타이틀명이 표시됨 -->
@@ -12,4 +13,5 @@
         <!--object의 url의 내용을 가져와서 표시한뒤 링크로 나타내라 -->
     </ul>
 </div>
-{% endblock %}
+</body>
+</html>

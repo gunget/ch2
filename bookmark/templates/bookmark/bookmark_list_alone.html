@@ -1,9 +1,14 @@
-{% extends 'base.html' %}
-<!-- base.html을 상속 받음. 인용부호 필수-->
-{% block title%}Django Bookmark List{% endblock %}
-<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+<!--웹서비스 개발시 디자인 변경등의 이유로 프론트엔드 개발이 늦어지기 때문에 백엔드 서비스부터 러프하게 개발해놓고
+프론트엔드가 확정되면 이에 맞게 변경한다고 함. 이 템플릿은 백엔드 개발이 정상적으로 동작하는지를 확인하기 위한 것으로
+디자인 요소가 전혀 반영되지 않음-->
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Bookmark List BYG</title>
+</head>
+<body>
 <div id="content">
     <h1>Bookmark list</h1>
     <ul>
@@ -11,7 +16,7 @@
         <!-- object_list는 제네릭 뷰에서 DB를 조회해 자동으로 만들어서 넘긴 변수명 -->
             <li><a href="{%url 'bookmark:detail' bookmark.id %}">{{bookmark}}</a></li>
 <!-- url 2개로 분리전 <li><a href="%url 'detail' bookmark.id %">bookmark</a></li>-->
-        <!--url태그 %url '앱명:패턴name', 변수1, 변수2...% url패턴에서 url을 추출하는 태그.
+        <!--url태그 {%url '앱명:패턴name', 변수1, 변수2...%> url패턴에서 url을 추출하는 태그.
          (원래는 %url 'namespace(:view-name)', 변수1, 변수2...% view-name대신 패턴이름이 쓰이기도)
          (앱명과 루트urls파일의 해당 앱의 include()-namespace를 같게해야 혼돈되지 않는다. bookmark:detail에서
           bookmark가 앱의 명칭인지, include할때 썻던 namespace의 값인지는 불분명. 후자 같긴 함)
@@ -22,4 +27,5 @@
         {% endfor %}
     </ul>
 </div>
-{% endblock %}
+</body>
+</html>

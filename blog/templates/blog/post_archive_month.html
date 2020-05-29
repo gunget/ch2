@@ -1,25 +1,26 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}post_archive_day.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% block content %}
+    <div id="content">
+        <h1>Post Archive for {{month|date:'N, Y'}}</h1>
+        <!-- month는 제네릭뷰에서 넘겨 준 값. datetime.date객체는 연월일 데이터가 다 들어 있어서 연월 추출 가능-->
+        <div>
+            <ul>
+                {% for post in object_list%}
+        <!--    default 컨텍스트 변수로 object_list를 받아 사용.-->
+                <li>
+                    {{post.modify_date|date:"Y-m-d"}}&nbsp;&nbsp;&nbsp;
+        <!--        post의 수정일을 특정형식으로 표시. &nbsp는 스페이스. 3칸 띄어씀-->
+                    <a href="{{post.get_absolute_url}}"><strong>{{post.title}}</strong></a>
+        <!--        목록을 제목으로 쭉 표시하되 상세 자료로 이동할 수 있도록 링크를 걸어줌. strong태그는 굵게=<b>-->
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
 <!--archive_year에서 month부분을 눌렀을 때 나오는 html-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post Archive for Month</title>
-</head>
-<body>
-<h1>Post Archive for {{month|date:'N, Y'}}</h1>
-<!-- month는 제네릭뷰에서 넘겨 준 값. datetime.date객체는 연월일 데이터가 다 들어 있어서 연월 추출 가능-->
-<div>
-    <ul>
-        {% for post in object_list%}
-<!--    default 컨텍스트 변수로 object_list를 받아 사용.-->
-        <li>
-            {{post.modify_date|date:"Y-m-d"}}&nbsp;&nbsp;&nbsp;
-<!--        post의 수정일을 특정형식으로 표시. &nbsp는 스페이스. 3칸 띄어씀-->
-            <a href="{{post.get_absolute_url}}"><strong>{{post.title}}</strong></a>
-<!--        목록을 제목으로 쭉 표시하되 상세 자료로 이동할 수 있도록 링크를 걸어줌. strong태그는 굵게=<b>-->
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-</body>
-</html>

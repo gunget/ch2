@@ -7,43 +7,43 @@
  : url태그 작성 시 사용한 변수가 datetime객체로 year나 month처럼 고정된 이름이 있는 경우, urlconf에서 해당
  패턴을 부를때 같은 이름의 자리로 자동할당 되는 듯.-->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog List</title>
-</head>
-<body>
-<h1>Blog List</h1>
-{% for post in posts %}
-<!--posts는 view에서 넘겨준 컨텍스트 변수로 post테이블의 객체리스트가 담김. title, modify_date등이 담김-->
-    <h2><a href="{{post.get_absolute_url}}">{{post.title}}</a></h2>
-<!--post가 Post클래스의 컨텍스트 변수 이므로 Post클래스의 매소드 get_absolute~~를 쓸 수 있는 듯-->
-<!--타이틀을 표시하는데 링크형태로 나타내라. url은 /blog/post/slug단어/같은 형식-->
-<!--<a href="% url blog:post_detail post.slug %>와 같은 내용-->
-    {{post.modify_date|date:"N d, Y"}}
-<!--수정일을 표시하는데, 내장 템플릿 필터(date)를 써서 특정 형태로 표시해라-->
-    <p>{{post.description}}</p>
-<!--p태그는 paragraph즉 문단을 나누는 태그. 문단 나눠 설명을 표시해라-->
-{% endfor %}
-<br>
-<!-- br은 break 강제 줄바꿈-->
-<div>
-    <span>
-<!--span태그 내의 문장은 같은 줄에 표시됨. 페이징 기능을 위한 줄-->
-        {% if page_obj.has_previous %}
-<!--    제네릭뷰 정의 시, paginator를 사용해서 page_obj가 생성된 것으로 추정. 이를 활용 페이지 정보 표시-->
-            <a href="?page={{page_obj.previous_page_number}}">PreviousPage</a>
-<!--        url링크는 ?page=3 같은 형식이 될 것임-->
-        {% endif %}
-        Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
-<!--    현재 page번호 of 총페이지 수-->
-        {% if page_obj.has_next %}
-<!--    post테이블의 객체중에는 페이지관련 정보를 담은 page_obj도 있는 것으로 추정-->
-            <a href="?page={{page_obj.next_page_number}}">NextPage</a>
-<!--        url링크는 ?page=5 같은 형식이 될 것임-->
-        {% endif %}
-    </span>
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}post_all.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% block content %}
+<div id="content">
+    <h1>Blog List</h1>
+        {% for post in posts %}
+        <!--posts는 view에서 넘겨준 컨텍스트 변수로 post테이블의 객체리스트가 담김. title, modify_date등이 담김-->
+            <h2><a href="{{post.get_absolute_url}}">{{post.title}}</a></h2>
+        <!--post가 Post클래스의 컨텍스트 변수 이므로 Post클래스의 매소드 get_absolute~~를 쓸 수 있는 듯-->
+        <!--타이틀을 표시하는데 링크형태로 나타내라. url은 /blog/post/slug단어/같은 형식-->
+        <!--<a href="% url blog:post_detail post.slug %>와 같은 내용-->
+            {{post.modify_date|date:"N d, Y"}}
+        <!--수정일을 표시하는데, 내장 템플릿 필터(date)를 써서 특정 형태로 표시해라-->
+            <p>{{post.description}}</p>
+        <!--p태그는 paragraph즉 문단을 나누는 태그. 문단 나눠 설명을 표시해라-->
+        {% endfor %}
+    <br>
+    <!-- br은 break 강제 줄바꿈-->
+    <div>
+        <span>
+    <!--span태그 내의 문장은 같은 줄에 표시됨. 페이징 기능을 위한 줄-->
+            {% if page_obj.has_previous %}
+    <!--    제네릭뷰 정의 시, paginator를 사용해서 page_obj가 생성된 것으로 추정. 이를 활용 페이지 정보 표시-->
+                <a href="?page={{page_obj.previous_page_number}}">PreviousPage</a>
+    <!--        url링크는 ?page=3 같은 형식이 될 것임-->
+            {% endif %}
+            Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+    <!--    현재 page번호 of 총페이지 수-->
+            {% if page_obj.has_next %}
+    <!--    post테이블의 객체중에는 페이지관련 정보를 담은 page_obj도 있는 것으로 추정-->
+                <a href="?page={{page_obj.next_page_number}}">NextPage</a>
+    <!--        url링크는 ?page=5 같은 형식이 될 것임-->
+            {% endif %}
+        </span>
+    </div>
 </div>
-</body>
-</html>
+{% endblock %}

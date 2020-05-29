@@ -9,7 +9,7 @@
     {#블록으로 지정된 부분을 extends로 확장해서 쓸 수 있음#}
     {#title, extrastyle, content, footer 총 4개의 block을 미리 지정해둠#}
     {% load static %}
-<!--static파일이란 img, css, jvscript처럼 응답할때 별도의 처리없이 그대로 보내주면 되는 파일들.-->
+{# static파일이란 img, css, 자바스크립트처럼 응답할때 별도의 처리없이 그대로 보내주면 되는 파일들 #}
 <!--장고에서는 이미지나 업로드한 파일들은 MEDIA로, CSS나 JS파일들은 STATIC으로 따로 분류.-->
     <!-- static태그를 쓰려면 staticfile을 로드해야함(지금은 %load static%으로 바뀜)-->
     <!--%static%태그는 정적파일의 절대 url을 생성, 링크로 쓸 수 있게 함 -->
@@ -31,10 +31,15 @@
 <!-- href='#'은 추후에 링크로 채워질 부분. 의미없는 링크를 집어넣어 화면에 링크만 표시되게 내놓음-->
 
 <div id="menu">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Bookmark</a></li>
-    <li><a href="#">Blog</a></li>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'bookmark:index' %}">Bookmark</a></li>
+    <li><a href="{% url 'blog:index' %}">Blog</a></li>
     <li><a href="#">Photo</a></li>
+
+<!--    <li><a href="#">Home</a></li>-->
+<!--    <li><a href="#">Bookmark</a></li>-->
+<!--    <li><a href="#">Blog</a></li>-->
+<!--    <li><a href="#">Photo</a></li>-->
 <!--메뉴부분에 나타날 앱이동 메뉴-->
     <li><a href="#">Add&bigtriangledown;</a>
         <ul>
@@ -51,9 +56,9 @@
         </ul>
     </li>
 <!--각앱의 추가 변경화면으로 이동할 링크-->
-    <li><a href="#">Archive</a></li>
+    <li><a href="{% url 'blog:post_archive' %}">Archive</a></li>
     <li><a href="#">Search</a></li>
-    <li><a href="#">Admin</a></li>
+    <li><a href="{% url 'admin:index' %}">Admin</a></li>
 <!--아카이브, 찾기, 관리자 링크 표시-->
 </div>
 {% block content %}{% endblock %}
