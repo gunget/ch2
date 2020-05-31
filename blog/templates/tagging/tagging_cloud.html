@@ -1,0 +1,33 @@
+<!--tagging_cloud.html의 위치는 '1. 루트 템플릿 위치, 2.blog 템플릿 위치, 3.bookmark템플릿 위치
+4.Tagging패키지가 설치된 곳 아래 템플릿 폴더 안' 모두 정상동작함. 블로그에 가까운 기능으로 판단
+블로그 템플릿 폴더 하위에 위치 시킴-->
+
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}tagging_cloud_day.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% load static %}
+{% block extrastyle %}{% static 'tagging/tag.css' %}{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h1>Blog Tag Cloud</h1>
+        <div class="tag-cloud">
+            {% load tagging_tags %}
+            {% tag_cloud_for_model blog.Post as tags with steps=6 min_count=1 distribution=log %}
+<!--            tagging패키지에서 제공하는 기능. tag_~~커스텀 태그를 사용해 Post모델의 태그들을 클라우드
+로 만드는데 폰트 크기는 (1~6)으로, 출력용 최소사용회수는 1, 태그 폰트크기 할당시 로그 수학알고리즘을 써라-->
+<!--        제일 조금 나온 태그는 1로, 제일 많이 나오는 태그는 6으로, 상대적으로 할당 됨-->
+            {% for tag in tags %}
+            <span class="tag-{{tag.font_size}}">
+<!--                각 태그별로 스타일을 지정하기 위해 'tag-2'형식으로 클래스 지정-->
+                <a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}(
+                    {{tag.font_size}})
+                </a>
+<!--        djago(6)처럼 태그를 지정하고 그 태그의 링크를 표시(전체 태그리스트를 보여주는 템플릿으로 감)-->
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

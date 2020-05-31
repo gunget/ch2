@@ -35,5 +35,19 @@
         <!-- 구획을 나눠서 이제 포스트의 콘텐트 항목을 표시하도록 함. linebreaks는 \n(줄바꿈)문자를 인식하게 하고
         전체 컨텐트는 P태그로 묶어주는 것-->
         </div>
+        <div>
+            <b>TAGS:</b>
+            {% load tagging_tags %}
+<!--            tagging패키지의 'tags_for_object'라는 커스텀태그(문법)을 쓰기위해 관련 기능 로드-->
+            {% tags_for_object object as tags %}
+<!--            뷰에서 넘겨준 'object 객체'에 있는 태그들을 'tags'라는 이름으로 추출하라-->
+            {% for tag in tags%}
+            <a href="{% url 'blog:tagged_object_list' tag.name%}">{{tag.name}}</a>
+<!--            tag.name속성은 tagging패키지에서 지정되는 속성인 듯. Post모델에선 지정하지 않음. 이를
+ 템플릿에서 사용할 수 있도록 같이 넘겨 줌-->
+            {% endfor %}
+            <a href="{% url 'blog:tag_cloud' %}">[ TagCloud ]</a>
+<!--            tag cloud를 전부 보여주는 템플릿을 링크로 표시-->
+        </div>
     </div>
 {% endblock %}

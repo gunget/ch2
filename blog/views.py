@@ -4,6 +4,9 @@ from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthA
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 
 from blog.models import Post
+from tagging.models import Tag, TaggedItem
+from tagging.views import TaggedObjectList
+
 
 ''' 함수형 뷰였을 경우에는 첫째, DB에서 쿼리를 통해 데이터를 가져와 객체1을 만들고(Queryset)
 둘째, 딕셔너리 형태로 템플릿에서 사용하게 컨텍스트 변수(변수명:객체1 형식)를 만들고
@@ -19,6 +22,11 @@ object_list로, 템플릿파일은 모델명소문자_list.html(post_list.html)�
 이는 장고 라이브러리에서 찾아 볼 수밖에 없다(from의 항목의 라이브러리를 검색하면 클래스들은 세부설명에 있다).  
 '''
 
+#template View
+class TagTV(TemplateView):
+    template_name = 'tagging/tagging_cloud.html'
+#템플릿뷰는 테이블 처리없이 단순히 템플릿 렌더링만 하는 뷰
+
 #List View
 class PostLV(ListView): #상속을 받았기에 변수들이 고정되어 있음.
     model = Post #테이블은 Post란 클래스명으로 지정되었다.
@@ -30,6 +38,12 @@ class PostLV(ListView): #상속을 받았기에 변수들이 고정되어 있음
     paginate_by = '2' #페이지 지정 옵션. 한 페이지에 보여주는 객체리스트의 숫자는 2개
                       #이렇게 설정 하는 것만으로 장고의 페이징 기능 쓸 수 있음. 하단에 페이지 이동버튼 사용가능
                       #page_obj라는 페이지 객체가 넘겨지는 듯
+
+class PostTOL(TaggedObjectList):
+    model = Post
+    template_name = 'tagging/tagging_post_list.html'
+#tagged object List는 listview를 상속받는 제네릭뷰로 모델과 태그가 주어지면 태그가 달린 모델의 객체리스트를 보여줌
+#list view를 상속받았으므로 object_list를 컨텍스트 변수로 템플릿에 넘겨 줌
 
 #Detail View
 class PostDV(DetailView): #테이블에서 특정 개체를 가져와 그 상세정보를 출력

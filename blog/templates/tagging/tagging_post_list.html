@@ -1,0 +1,19 @@
+<!--특정 태그를 눌렀을 때, 그 태그가 걸려있는 포스트 리스트를 보여주는 템플릿-->
+
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}tagging_post_list.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% block content %}
+    <div id="content">
+        <h1>Post for tag - {{tag.name}}</h1>
+        <!--tag.name은 url태그에서 같이 넘어옴-->
+        {% for post in object_list %}
+<!--        object-list는 뷰에서 넘겨준 것-->
+        <h2><a href="{{post.get_absolute_url}}">{{post.title}}</a></h2>
+        {{post.modify_date|date:"N d, Y"}}
+        <p>{{post.description}}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
