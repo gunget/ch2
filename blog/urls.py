@@ -26,4 +26,7 @@ urlpatterns =[
     url(r'^tag/(?P<tag>[^/]+(?u))/$', PostTOL.as_view(), name='tagged_object_list'),
     # ex. tag/tagname/
     #[^/]+ : /이외의 문자가 하나이상 있다. (?u)앞의 구문을 유니코드로 인식해라(한글이 와도 인식되도록)
+    url(r'^search/$', SearchFormView.as_view(), name='search'),
+    #폼을 보여주고 폼에있는 데이터를 처리하기 위해 FormView를 상속받아 정의
+    #blog/search/
 ]

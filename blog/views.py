@@ -7,6 +7,10 @@ from blog.models import Post
 from tagging.models import Tag, TaggedItem
 from tagging.views import TaggedObjectList
 
+from django.views.generic.edit import FormView
+from blog.forms import PostSearchForm #검색 form으로 사용할 Post~~클래스를 임포트. 직접 만든 것
+from django.db.models import Q  #검색에 필요한 기능은 장고의 Q클래스를 임포트
+from django.shortcuts import render #단축함수 render
 
 ''' 함수형 뷰였을 경우에는 첫째, DB에서 쿼리를 통해 데이터를 가져와 객체1을 만들고(Queryset)
 둘째, 딕셔너리 형태로 템플릿에서 사용하게 컨텍스트 변수(변수명:객체1 형식)를 만들고
@@ -82,3 +86,36 @@ class PostTAV(TodayArchiveView): #오늘에 해당하는 아카이브를 불러�
     model = Post
     date_field = 'modify_date' #modify_date컬럼을 날짜 필드로 사용
 
+#FormView
+
+class SearchFormView(FormView): #search/ url을 처리할 view. formView 제네릭뷰를 상속받음
+    #formView는 get요청인 경우 form을 화면에 보여주고 입력을 기다림
+    #사용자가 입력 후 제출하면, 데이터의 유효성을 검사한 후,
+    #데이터가 유효하면 form_valid()함수를 실행 후 적절한 url로 re-direct 시킴
+    form_class = PostSearchForm #form으로 사용할 클래스는 이거다라고 지정
+    template_name = 'blog/post_search.html'
+    #검색 결과를 보여줄 템플릿
+
+    def form_valid(self, form): #post요청으로 들어온 데이터에 유효성 검사후 이상이 없으면, 이를 실행
+        schWord = '%s' % self.request.POST['search_word']
+        #'search_word'는 post요청으로 넘어온 검색어 변수값(필드 id이기도).
+        post_list = Post.objects.filter(Q(title__icontains=schWord) |
+        Q(description__icontains=schWord) | Q(content__icontains=schWord)).distinct()
+        # Q()객체는 and or같은 복잡한 조건의 검색을 해야할 때 사용하는 q객체를 만드는 함수
+        # __icontains등은 filter()함수의 세부 조건.
+        # 대소문자를 가리지 않고(icontains. 필터의 변수) schWord가 타이틀, 설명, 본문에 있는 지 검색해,
+        # 중복된 건 빼고(distinct()) 리스트로 만들어라.
+
+        context = {} #템플릿에 넘겨줄 콘텍스트 변수를 만든다
+        context['form'] = form
+        #PostSearchForm객체를 컨텍스트 변수 중 키워드 'form'에 지정
+        context['search_term'] = schWord
+        #검색 단어를를 컨텍스트 변수 중 키워드 'search_term'에 지정
+        context['object_list'] = post_list
+        #검색 결과를 컨텍스트 변수 중 키워드 'object_list'에 지정
+
+        return render(self.request, self.template_name, context) #no re-direction
+        #render는 템플릿파일과 컨텍스트 변수를 처리해 최종적으로 Httprespose객체를 반환함
+        #form_vaild()함수는 보통 리다이렉트 처리를 위해 httpResposeRedirect객체를 반환하는데
+        #이 render함수에 의해 리다이렉트 처리가 되지 않는다.
+        #한마디로 한페이지에 보여 주니까, 리다이렉트 처리를 하지 않는다 정도의 의미?

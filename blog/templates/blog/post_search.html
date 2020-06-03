@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}post_search.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% block content %}
+    <div id="content">
+        <h1>Blog Search</h1>
+        <form action="." method="post"> {% csrf_token %}
+<!--            검색폼 출력. submit버튼을 누르면 POST방식으로 현재와 동일한 url로 요청이 전송됨-->
+<!--            action은 form의 내용을 전달할 서버쪽 스크립트 파일을 지정. 쉽게 서버의 어디로 보낼 것이냐 지정-->
+            {{form.as_table}}
+<!--            form을 테이블형식으로 표현. form은 뷰에서 넘겨준 PostSearchForm객체임-->
+            <input type="submit" value="SUBMIT">
+        </form>
+
+    <br/><br/>
+
+        {% if object_list %} {# 검색결과가 있을 때 #}
+            {% for post in object_list %}
+                <h2><a href="{{post.get_absolute_url}}">{{post.title}}</a></h2>
+                {{post.modify_data|date:"N d, Y"}}
+                <p>post.description</p>
+            {% endfor %}
+        {% elif search_term %} {# 검색결과가 없을 때 #}
+            <b><i>Search Word {{search_term}} Not Found!</i></b>
+        {% endif %}
+    </div>
+{% endblock %}
