@@ -46,8 +46,16 @@
 <!--            tag.name속성은 tagging패키지에서 지정되는 속성인 듯. Post모델에선 지정하지 않음. 이를
  템플릿에서 사용할 수 있도록 같이 넘겨 줌-->
             {% endfor %}
-            <a href="{% url 'blog:tag_cloud' %}">[ TagCloud ]</a>
+            <a href="{% url 'blog:tag_cloud' %}"><i>[ TagCloud ]</i></a>
 <!--            tag cloud를 전부 보여주는 템플릿을 링크로 표시-->
+        </div>
+        <br/>
+        <div>
+            {% load disqus_tags %}
+<!--            disqus 커스텀태그를 사용하기 위해 로드-->
+            {% disqus_show_comments %}
+<!--            댓글기능을 보여줘라. disqus에서 자료를 가져와 띄움. 댓글의 폰트크기는 변경 못함. base.css를
+수정해서 적당한 크기를 찾아야함-->
         </div>
     </div>
 {% endblock %}

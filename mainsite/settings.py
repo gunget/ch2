@@ -46,7 +46,17 @@ INSTALLED_APPS = [
     'tagging.apps.TaggingConfig',#lib/site pakage/에 가보면 django-tagging이 설치되었는데
     #이를 프로젝트에 사용하려면 등록해야 함. 앱명이 tagging이고 패키지의 apps.py에 들어가서 앱에대한 정보를 보면
     #TaggingConfig라는 클래스로 만들어져 있으므로 이를 등록해야 함
+    'disqus', #댓글기능을 제공하는 웹서비스. site pakage-disqus로 가보면 apps.py가 정의 되지 않음. 따라서
+    # #그냥 disqus라고 등록하면 됨
+    'django.contrib.sites', #disqus는 이 패키지를 사용하는 모든 사이트를 구별해야하므로, 장고에서는 각
+    #사이트에 구별자(ID)를 제공해야 하는데, site패키지가 그 역할을 함. 이 패키지는 테이블이 존재하므로 migration
+    #해야함
 ]
+
+# DISQUS_API_KEY = 'yhZgJVNydzBkddkx2pwaOv1cC48zwlnHfuC45eo4djDD8MBEkkoGaVjIJ1c4xJ2c'
+DISQUS_WEBSITE_SHORTNAME = 'djangoprg' #DISQUS-Admin-setting-general에서 가져온 값
+SITE_ID = 1 #django.contrib.sites에서 사이트를 구별하기 위해 지정한 값. 모두 달라야 함
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
