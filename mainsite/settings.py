@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sites', #disqus는 이 패키지를 사용하는 모든 사이트를 구별해야하므로, 장고에서는 각
     #사이트에 구별자(ID)를 제공해야 하는데, site패키지가 그 역할을 함. 이 패키지는 테이블이 존재하므로 migration
     #해야함
+    'photo.apps.PhotoConfig',
 ]
 
 # DISQUS_API_KEY = 'yhZgJVNydzBkddkx2pwaOv1cC48zwlnHfuC45eo4djDD8MBEkkoGaVjIJ1c4xJ2c'
