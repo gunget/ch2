@@ -36,12 +36,12 @@ class Album(models.Model):#앨범과 포토의 관계는 1:N관계. 포토에서
         #ex. photo/album/1/
 
 @python_2_unicode_compatible
-class Photo(models.Model):
+class Photo(models.Model): #db에는 경로만 저장되고 파일을 media폴더에 저장된다.
     album = models.ForeignKey(Album) #앨범테이블에 연결된 외래키. 사진이 소속된 앨범객체를 가르킴
     title = models.CharField(max_length=50)
-    image = models.ThumbnailImageField(upload_to='photo/%Y/%m')
+    image = ThumbnailImageField(upload_to='photo/%Y/%m')
     #Thumb~~는 이미지, 썸네일 둘다 저장하는 커스텀 필드(장고가 아니라 서드파티에서 스스로 정의한 필드).
-    #upload_to로 저장할 위치 지정
+    #모델에서 가져오지 않았음에 주목!! upload_to로 저장할 위치 지정
     #세팅에 MEDIA_ROOT로 지정된 곳 하위에 ~/photo/2020/12처럼 폴더를 만들고 그곳에 사진 및 썸네일 저장
     description = models.TextField('Photo Description', blank=True)
     upload_date = models.DateTimeField('Upload Date', auto_now_add=True)
