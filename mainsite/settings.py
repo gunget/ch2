@@ -74,8 +74,8 @@ ROOT_URLCONF = 'mainsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], #초기설정1
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], #초기설정1. 루트템플릿 폴더.
+        'APP_DIRS': True, #이게 앱 하단의 템플릿을 검색하도록 하는 듯. 앱에 등록을 먼저 해야함.
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

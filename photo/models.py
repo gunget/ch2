@@ -37,7 +37,9 @@ class Album(models.Model):#앨범과 포토의 관계는 1:N관계. 포토에서
 
 @python_2_unicode_compatible
 class Photo(models.Model): #db에는 경로만 저장되고 파일을 media폴더에 저장된다.
-    album = models.ForeignKey(Album) #앨범테이블에 연결된 외래키. 사진이 소속된 앨범객체를 가르킴
+    album = models.ForeignKey(Album, on_delete=models.CASCADE) #앨범테이블에 연결된 외래키.
+    # 사진이 소속된 앨범객체를 가르킴. 연결된 앨범이 지워지면 photo도 지우라는 옵션(cascade) 추가(필수).
+    # django2.0부터는 on_delete옵션을 추가해야함
     title = models.CharField(max_length=50)
     image = ThumbnailImageField(upload_to='photo/%Y/%m')
     #Thumb~~는 이미지, 썸네일 둘다 저장하는 커스텀 필드(장고가 아니라 서드파티에서 스스로 정의한 필드).

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}phote_detail.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% load static %} {# static태그를 쓰기 위해 #}
+{% block extrastyle %}{% static "photo/photo.css" %}{% endblock %}
+<!-- static태그는 정적파일의 절대url을 생성, 링크로 쓸 수 있게 해줌-->
+{% block content %}
+<div id="content">
+<!--    특정 사진의 세부설정 표시하기-->
+    <h2>{{object.title}}</h2>
+    <table class="photo-detail">
+        <tr>
+            <td>
+                <a href="{{object.image.url}}">
+<!--                원본사진에 대한 url을 가져오기. url함수는 부모클래스에서 상속받은 것으로 추정-->
+                    <img style="max-width=100%" src="{{object.image.url}}"/>
+<!--                셀크기의 100%에 해당하도록 사진을 띄워라-->
+                </a>
+            </td>
+            <td>
+                <ul>
+                    <li>Photo Description</li>
+                    {% if object.description %}
+                    <p>{{object.description|linebreaks}}</p>
+<!--                    줄바꿈을 적용시켜라-->
+                    {% else %}<p>(blank)</p>
+                    {% endif %}
+                    <li>Date Uploaded</li>
+                    <p>{{object.upload_date}}</p>
+                    <li>Album Name</li>
+                    <p><a href="{% url 'photo:album_detail' object.album.id %}">
+                         {{object.album.name}}</a></p>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

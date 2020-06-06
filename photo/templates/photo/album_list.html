@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}album_list.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% load static %} {# static태그를 쓰기 위해 #}
+{% block extrastyle %}{% static "photo/photo.css" %}{% endblock %}
+<!-- static태그는 정적파일의 절대url을 생성, 링크로 쓸 수 있게 해줌-->
+{% block content %}
+<div id="content">
+<!--    앨범당 사진 5개씩 띄워서 보여주는 html작성-->
+    {% for item in object_list %}
+        <div class="clear_float">
+            <h2 style="display:inline;"><a href="{% url 'photo:album_detail' item.id %}">
+                {{ item.name }}</a> </h2>
+            &emps;<b><i>{{ item.description }}</i></b>
+        </div>
+    <hr/>
+    <div class="album-list">
+        {% for photo in item.photo_set.all|slice:":5" %}
+<!--    해당 앨범에 연결 된 사진객체를 앞에서부터 5개 보여줘라. photo_set이란 ORM명령이 있음-->
+        <div class="album-list-photo">
+            <a href="{{photo.get_absolute_url}}">
+                <img class="thumbnail" src="{{photo.image.thumb_url}}"/>
+<!--            썸네일을 띄우되 클릭하면 상세설정으로 들어가도록 썸네일을 링크화 한다.-->
+<!--            album에 photo가 묶여있고 photo테이블의 image라는 칼럼은 thumbnailImageField가 처리하므로
+field.py의 thumb~~클래스에서 property로 속성화했던 thumb_url은 image.thumb_url을 통해 get함수를
+호출할 수 있게 됨. 즉 _get_thumb_url함수를 호출, url을 받아온다. 결과적으로 받아온 url를 소스로 해서
+이미지를 불러들인다.-->
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,3 +1,5 @@
+#adminsite에서 어떻게 보여질지를 세팅
+
 from django.contrib import admin
 from photo.models import Album, Photo
 
@@ -6,6 +8,7 @@ class PhotoInline(admin.StackedInline):
     #이를 종방향으로 보여줄거면 StackedIn~, 횡방향으로 보여 줄거면 TabularIn~으로 설정
     model = Photo #추가로 보여줄 테이블은 포토테이블
     extra = 2 #이미 입력된 객체 외에 추가로 입력할 수 있는 객체 수 2개(admin사이트에서 입력하니까)
+    #admin에서 바로 입력할 수 있는데 한번에 두개씩 올릴 수 있도록 세팅한 것
 
 class AlbumAdmin(admin.ModelAdmin):
     inlines = [PhotoInline]
@@ -18,4 +21,4 @@ class PhotoAdmin(admin.ModelAdmin):
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Photo, PhotoAdmin)
 
-# Register your models here.
+# admin에서 어떻게 보일지 정했으면 다음으로 migration을 해야 함
