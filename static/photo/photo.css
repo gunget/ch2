@@ -33,7 +33,7 @@ table.photo-detail {
     padding: 20px 20px;
 }
 table.photo-detail td {
-    width: 50%;
+    width: 50%; /* td가 각각 50%씩 차지하라라는 의미로 추정*/
 }
 
 table.photo-detail ul li {

@@ -9,7 +9,7 @@ from PIL import Image
 import os
 
 
-def _add_thumbs(s): #'/경로/파일명.확장자'가 인수로 넘어 옴. 파일명.thumb.jpg로 썸네일 이름 바꾸는 함수
+def _add_thumb(s): #'/경로/파일명.확장자'가 인수로 넘어 옴. 파일명.thumb.jpg로 썸네일 이름 바꾸는 함수
     parts = s.split('.')
     #점으로 쪼개주면 [파일명, 확장자]가 될 것
     parts.insert(-1, 'thumb')
@@ -26,7 +26,7 @@ class ThumbnailImageFieldFile(ImageFieldFile):
 
     #원본파일의 경로인 path속성에 추가해, 썸네일의 경로인 thumb_path속성을 만들어 주는 함수
     def _get_thumb_path(self):
-        return _add_thumbs(self.path) #path는 장고.db.model.files 에서 제공하는 기능으로,
+        return _add_thumb(self.path) #path는 장고.db.model.files 에서 제공하는 기능으로,
                             #경로명 + 파일명을 돌려주는 함수 인듯./경로/파일명.thumb.jpg가 리턴됨
     thumb_path = property(_get_thumb_path) #property중 get속성만 할당해 준 것임
     #propert()는 속성을 선언하는 문장. 이것의 간략화 방법이 @property로 데코레이터를 사용하는 것
@@ -39,7 +39,7 @@ class ThumbnailImageFieldFile(ImageFieldFile):
 
     #원본파일의 url인 url속성에 추가해, 썸네일의 경로인 thumb_url속성을 만들어 주는 함수
     def _get_thumb_url(self):
-        return _add_thumbs(self.url) #url도 장고.db.model.files 에서 제공하는 기능으로,
+        return _add_thumb(self.url) #url도 장고.db.model.files 에서 제공하는 기능으로,
                                       #경로명 중 파일명을 돌려주는 함수 인듯. 파일명.thumb.jpg가 리턴됨
     thumb_url = property(_get_thumb_url)
 
@@ -57,17 +57,26 @@ class ThumbnailImageFieldFile(ImageFieldFile):
         #python3.x에서는 그냥 편하게 super()라고만 호출해줘도 중복호출 현상이 일어나지 않는다.
         img = Image.open(self.path) #필로우에서 이미지 불러오기
 
+        img = Image.open(self.path)
         size = (128, 128)
-        img.thumbnail(size, img.ANTIALIAS) #이미지를 썸네일로 만들어라
-        #Image.thumbnail(size, resize_filter). antialias는 고해상도를 저해상도에서 표현할때
-        #이미지 깨짐 현상을 완화시키는 필터(손으로 문지른 효과)
-        background = img.new('RGBA', size, (255,255,255,0))
-        #이미지와 동일한 크기, 색상은 흰색, 완전 불투명한 배경이미지를 새로 만듦
-        #RGBA라는 색상지정표를 사용하는데 (255,255,255)가 흰색, (0)이 불투명을 의미
-        background.paste(img, (int((size[0]-img.size[0])/2), int((size[1]-img.size[1])/2)))
-        #백그라운드 위에 이미지를 붙여라. 가로세로 크기 규정.
-        background.save(self.thumb_path, 'JPEG') #pillow의 save 규칙.
-        #위에서 property를 활용해 get함수를 지정했던 thumb_path가 x.thumb_path형식으로 사용됨
+        img.thumbnail(size)
+        background = Image.new('RGB', size, (255, 255, 255))
+        box = (int((size[0]-img.size[0])/2), int((size[1]-img.size[1])/2))
+        background.paste(img, box)
+        background.save(self.thumb_path, 'JPEG')
+
+        # jpeg가 RGBA모드에는 적용되지 않아 코드에는 개정판 내용 변경 적용. 변경코드는 jiff도 적용가능.
+        # size = (128, 128)
+        # img.thumbnail(size, Image.ANTIALIAS) #이미지를 썸네일로 만들어라
+        # #Image.thumbnail(size, resize_filter). antialias는 고해상도를 저해상도에서 표현할때
+        # #이미지 깨짐 현상을 완화시키는 필터(손으로 문지른 효과)
+        # background = Image.new('RGBA', size, (255,255,255,0))
+        # #이미지와 동일한 크기, 색상은 흰색, 완전 불투명한 배경이미지를 새로 만듦
+        # #RGBA라는 색상지정표를 사용하는데 (255,255,255)가 흰색, (0)이 불투명을 의미
+        # background.paste(img, (int((size[0]-img.size[0])/2), int((size[1]-img.size[1])/2)))
+        # #백그라운드 위에 이미지를 붙여라. 가로세로 크기 규정.
+        # background.save(self.thumb_path, 'JPEG') #pillow의 save 규칙.
+        # #위에서 property를 활용해 get함수를 지정했던 thumb_path가 x.thumb_path형식으로 사용됨
 
     def delete(self, save=True): #save=True역시 초기값을 설정한 것. delete시 원본 이미지뿐 아니라
                                  #썸네일 이미지까지 지워라 라는 명령

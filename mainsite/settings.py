@@ -144,4 +144,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #초기설정2 ~~/ch2/stat
 
 #파일 업로드 기능 개발할때 필요한 미디어 설정. 10장부터 사용예정
 MEDIA_URL = '/media/'
-MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')] #초기설정3 ~~/ch2/media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #초기설정3 ~~/ch2/media
+#미디어 루트는 위의 staticfiles_dir과 다르게 리스트값이 아님에 주목!! 에러난다.
