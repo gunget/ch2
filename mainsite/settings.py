@@ -146,3 +146,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #초기설정2 ~~/ch2/stat
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #초기설정3 ~~/ch2/media
 #미디어 루트는 위의 staticfiles_dir과 다르게 리스트값이 아님에 주목!! 에러난다.
+
+#default log in/out url. 세팅하지 않으면 아래의 url이 할당됨
+# LOGIN_URL = '/account/login/'
+# LOGOUT_URL = '/account/logout/'
+LOGIN_REDIRECT_URL = '/' #로그인 성공 후 이 항목에서 지정한 곳으로 리다이렉트됨. 홈화면으로 간다는 것.

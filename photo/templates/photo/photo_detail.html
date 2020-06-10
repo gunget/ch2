@@ -15,6 +15,7 @@
             <td>
                 <a href="{{object.image.url}}">
 <!--원본사진에 대한 url을 가져오기. media/photo/2020/06/1.jpg. url함수는 부모클래스에서 상속받은 것으로 추정-->
+<!--혹은 urlconf시 +static()설정을 했기 때문에 해당파일에 대한 url을 만들 수 있는 듯-->
 <!-- 저장된 원본 사진을 해당 url로 찾아가 그대로 가져옴-->
                     <img style="max-width:100%" src="{{object.image.url}}"/>
 <!--                셀크기의 100%에 해당하도록 사진을 띄워라. 이미지 크기에 관계없이.-->
