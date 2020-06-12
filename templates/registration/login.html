@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}login.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+{% load static %}
+{% block extrastyle %}{% static "css/form.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <h1>Please Login</h1>
+    <form action="." method="post">{% csrf_token %}
+<!--폼 제출시 post방식으로 현재와 같은 url('.')로 요청이 전송됨-->
+    {% if form.errors %}
+<!--        폼에 입력된 내용에 에러가 있다면-->
+        <p class="errornote">Wrong! Please correct the error(s) below.</p>
+    {% endif %}
+    <p>Please enter your id an password.</p>
+    <fieldset class="aligned">
+<!--    필드셋테그는 폼에서 비슷한 요소들을 그룹으로 묶어주는 역할을 함. 묶은 요소 주변으로 테두리를 그려줌-->
+<!--        legend태그를 이용하면 캡션을 추가할 수 있음-->
+        <div class="form_row">
+            {{form.username.label_tag}} {{form.username}}
+        </div>
+        <div class="form_row">
+            {{form.password.label_tag}} {{form.password}}
+        </div>
+    </fieldset>
+    <div class="submit_row">
+        <input type="submit" value="Log In">
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </div>
+    <script type="text/javascript">document.getElementById('id_username').focus();</script>
+    </form>
+</div>
+{% endblock %}
