@@ -89,6 +89,10 @@ class PostTAV(TodayArchiveView): #오늘에 해당하는 아카이브를 불러�
 #FormView
 
 class SearchFormView(FormView): #search/ url을 처리할 view. formView 제네릭뷰를 상속받음
+    #일반적으론 폼을 보여주는 뷰, 데이터를 처리하는 뷰를 하나로 묶어서 처리하는데, 이때 입력된 데이터가
+    #유효한지를 검사해 맞다면 적절한 처리후 특정 url로 리다이렉트 시킨다.
+
+    #위와같은 form처리 절차를 FormView로 간략화한 듯.
     #formView는 get요청인 경우 form을 화면에 보여주고 입력을 기다림
     #사용자가 입력 후 제출하면, 데이터의 유효성을 검사한 후,
     #데이터가 유효하면 form_valid()함수를 실행 후 적절한 url로 re-direct 시킴
@@ -116,6 +120,7 @@ class SearchFormView(FormView): #search/ url을 처리할 view. formView 제네�
 
         return render(self.request, self.template_name, context) #no re-direction
         #render는 템플릿파일과 컨텍스트 변수를 처리해 최종적으로 Httprespose객체를 반환함
-        #form_vaild()함수는 보통 리다이렉트 처리를 위해 httpResposeRedirect객체를 반환하는데
+        #form_vaild()함수는 보통 리다이렉트 처리를 위해 httpResposeRedirect객체를 반환하는데, 즉
+        #마지막에 returen HttpResposeRedirect('url')이라고 쓰이는게 보통인데,
         #이 render함수에 의해 리다이렉트 처리가 되지 않는다.
         #한마디로 한페이지에 보여 주니까, 리다이렉트 처리를 하지 않는다 정도의 의미?

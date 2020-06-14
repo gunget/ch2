@@ -10,7 +10,7 @@
 <!--            검색폼 출력. submit버튼을 누르면 POST방식으로 현재와 동일한 url로 요청이 전송됨-->
 <!--            action은 form의 내용을 전달할 서버쪽 스크립트 파일을 지정. 쉽게 서버의 어디로 보낼 것이냐 지정-->
             {{form.as_table}}
-<!--            form을 테이블형식으로 표현. form은 뷰에서 넘겨준 PostSearchForm객체임-->
+<!--            form을 <tr>태그로 감싸서 표현. form은 lable과 input태그 꼴로 변환되어 표시됨-->
             <input type="submit" value="SUBMIT">
         </form>
 

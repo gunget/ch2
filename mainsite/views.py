@@ -21,6 +21,7 @@ class HomeView(TemplateView):
 class UserCreateView(CreateView):
     template_name = 'registration/register.html'
     form_class = UserCreationForm #미리 정의된 폼을 보여준다고 함. 직접 개발도 가능
+    #UserCreatoinForm에 정의된 form의 필드값들이 템플릿에서 호출됨
     success_url = reverse_lazy('register_done') #에러검사 후 없으면 테이블 생성후 이 url을 띄움
     #/account/register/done/
 
