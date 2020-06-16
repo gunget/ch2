@@ -20,19 +20,21 @@
     <fieldset class="aligned">
 <!--    필드셋테그는 폼에서 비슷한 요소들을 그룹으로 묶어주는 역할을 함. 묶은 요소 주변으로 테두리를 그려줌-->
 <!--        legend태그를 이용하면 캡션을 추가할 수 있음-->
-        <div class="form_row">
+        <div class="form-row">
             {{form.username.label_tag}} {{form.username}}
-<!--        로그인 처리를 위해 form을 사용함.-->
+<!--    로그인 처리를 위해 form을 사용함. 장고는 User라는 모델을 자동으로 제공하는데, 이 모델의 필드가 username.
+        login을 위한 form을 만들때 이 user모델을 연결시켜 폼을 만들텐데, 그로 인해 폼에서 User의 필드값을
+        호출할 수 있는 것으로 추정-->
 <!--        username 입력요소 출력. form변수는 auth.views.login()뷰에서 넘겨주는 객체.
-username은 form객체의 username필드값. <lable>태그부분을 보여줘라.-->
+username은 form객체의 username필드값. <lable>태그 안에 username을 넣어라.-->
         </div>
-        <div class="form_row">
+        <div class="form-row">
             {{form.password.label_tag}} {{form.password}}
 <!--        password입력요소를 출력. form.password는 password필드의 위젯을 출력한다고 함
 form의 필드는 각각 특정한 위젯(html에 보여줄 특정형태)으로 매핑되있다고 함. -->
         </div>
     </fieldset>
-    <div class="submit_row">
+    <div class="submit-row">
         <input type="submit" value="Log In">
 <!--        제출버튼 만들기. 이름은 log in-->
         <input type="hidden" name="next" value="{{ next }}"/>
@@ -42,7 +44,8 @@ _URL에 지정된 항목값, 이것도 없으면 디폴트로 /account/profile/�
 가도록 지정 됨. hidden처리해서 보이지는 않음-->
     </div>
     <script type="text/javascript">document.getElementById('id_username').focus();</script>
-<!--자바스크립트로 username입력요소에 커서를 위치시킨다. 위 HTML에는 id=username이라고 지정된것은 없다.-->
+<!--자바스크립트로 username입력요소에 커서를 위치시킨다. 위 HTML에는 id=username이라고 지정된것은 없다.
+추측하건데 form.username에서 username이 html상 id로서 처리되는 듯.-->
     </form>
 </div>
 {% endblock %}

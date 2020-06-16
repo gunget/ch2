@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}logged_out.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+{% load static %}
+{% block extrastyle %}{% static "css/form.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <h1>Logged out</h1>
+    <p>"Thanks for spending your time with us today."</p>
+    <p><a href="{% url 'login' %}">Login again</a> </p>
+</div>
+{% endblock %}

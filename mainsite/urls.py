@@ -29,8 +29,9 @@ urlpatterns = [
     #인증관련 처리 URL
     url(r'^accounts/', include('django.contrib.auth.urls')),
     #django.co~는 장고가 기본적으로 제공하는 인증관련 앱으로, url과 템플릿파일명이 지정되어 있다. 책236페이지 표 참조
-    url(r'^accounts/register/$', UserCreateView.as_view, name='register'),  #계정 생성처리를 하는 url
-    url(r'^accounts/register/done/$', UserCreateDoneTV.as_view, name='register_done'), #생성 완료를 보여주는 url
+    #로그인/아웃 관련 url과 view는 장고가 제공하나 해당 템플릿은 직접 만들어야 한다. 물론 템플릿명도 지정됨.
+    url(r'^accounts/register/$', UserCreateView.as_view(), name='register'),  #계정 생성처리를 하는 url
+    url(r'^accounts/register/done/$', UserCreateDoneTV.as_view(), name='register_done'), #생성 완료를 보여주는 url
 
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^bookmark/', include('bookmark.urls', namespace='bookmark')), #include 함수도 import해야함

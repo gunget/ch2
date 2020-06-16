@@ -1,0 +1,41 @@
+/* Form-error */
+.errornote {
+    display: block;
+    margin: 5px 0;
+    border: 1px solid #c30;
+    padding: 5px 25px;
+    background: #fcf;
+    color: #c30;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Authentication Forms */
+fieldset {
+    border: 1px solid #ccc;
+}
+
+.aligned label { /* aligned 밑에 템플릿태그로 '.label_tag'를 첨부해서 css로 꾸미기 가능 */
+    width: 170px;
+    display: block;
+    padding: 3px 10px 0 0;
+    float: left; /* 왼쪽으로 띄우기 */
+}
+
+.form-row {
+    padding: 10px;
+    font-size: 11px;
+    border-bottom: 1px solid #eee;
+}
+
+.submit-row {
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    text-align: right;
+}
+
+.submit-row input{
+    margin: 10px;
+    background: #ffc;
+}
+

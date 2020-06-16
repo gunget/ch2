@@ -19,6 +19,7 @@ class HomeView(TemplateView):
 
 #User Creation
 class UserCreateView(CreateView):
+    #CreateView를 상속받는다는 이야기는 FormView가 기본적으로 상속받아진다는 이야기.
     template_name = 'registration/register.html'
     form_class = UserCreationForm #미리 정의된 폼을 보여준다고 함. 직접 개발도 가능
     #UserCreatoinForm에 정의된 form의 필드값들이 템플릿에서 호출됨
