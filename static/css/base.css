@@ -25,7 +25,7 @@ div#menu { /*메뉴 영역의 위치(position, top, left), 높이와 너비, 출
     width: 100%;
     display: table;
     table-layout: fixed; /*테이블 요소의 간격을 일정하게 하라는 설정*/
-    border-spacing: 40px, 0px; /*인접한 셀의 테두리간 간격 지정. 수평, 수직 순*/
+    border-spacing: 40px 0px; /*인접한 셀의 테두리간 간격 지정. 수평, 수직 순*/
     background: #ffa; /*이 영역의 배경색*/
     font-size: 8px;
 }
@@ -96,8 +96,8 @@ div#menu > li { /*id menu 바로아래 list item 꾸미기. '>'는 바로 하위
 div#menu li ul { /*메뉴아래 list item 하위(드롭다운 메뉴)의 설정*/
     display: none; /*엘러먼트를 보이지 않게 하라*/
     position: absolute;
-    margin: 0px;
-    padding: 10px, 10px, 5px, 10px;
+    margin: 0;
+    padding: 10px 10px 5px 10px;
     list-style: none; /*표시할때 넘버나 심벌을 표시하지 말아라*/
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
