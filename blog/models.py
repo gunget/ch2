@@ -13,7 +13,9 @@ from django.urls import reverse
 #reverse('blog:post_detail', kwargs={'id':10}) = blog앱의 detail이란 패턴명의 url을 추출하는데
 # id값은 10이다. = '/blog/10/'
 from tagging.fields import TagField
-
+from django.contrib.auth.models import User
+from django.utils.text import slugify
+#slug를 자동으로 만들기 위해 slugify()함수 호출
 
 @python_2_unicode_compatible
 class Post(models.Model):
@@ -33,6 +35,8 @@ class Post(models.Model):
     #auto_now는 객체가 DB에 저장될 때 시각 자동기록. 즉 변경될 때 기록
     tag = TagField()
     #TagField는 CharField()를 상속받아서 디폴트로 max_length=255, black=True로 설정되어 있음
+    owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    #post를 로그인 회원만 할 수 있도록 설정. 빈칸 있어도 되고, 회원삭제시 따라 지워짐(필수속성)
 
     class Meta:#필드속성 외에 필요한 테이블의 파라미터를 정의하기 위해, 내부클래스 선언(이또한 상속받는 것)
         verbose_name = 'post' #테이블의 별칭. 변수명은 상속받는 것 활용(내맘데로 짓는게 아님)
@@ -58,5 +62,11 @@ class Post(models.Model):
         return self.get_next_by_modify_date()
         #수정된 날짜 기준으로 다음 포스트를 반환하라
 
+    def save(self, *args, **kwargs):
+        #save메소드 재정의. 객체의 id가 없을때, 즉 처음 저장할때만 title을 slug화 해 slug필드 채움
+        if not self.id:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+        #django.db.models의 속성을 상속받아서 새로생긴 모델 객체를 DB(테이블)에 저장.
 
 # 모델을 잡고 나면 앱-admin파일로 가서 이 모델이 admin사이트에서 어떻게 보일지를 세팅해줘야 함

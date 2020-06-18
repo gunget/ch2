@@ -12,6 +12,12 @@ from blog.forms import PostSearchForm #검색 form으로 사용할 Post~~클래�
 from django.db.models import Q  #검색에 필요한 기능은 장고의 Q클래스를 임포트
 from django.shortcuts import render #단축함수 render
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+#reverse()함수를 쓰려면 url.py가 메모리에 로딩되어야 하는데, view처리 단계에서 로딩되지 않을수도
+#있으므로 reverse_lazy함수를 썼다고 함
+from mainsite.views import LoginRequiredMixin
+
 ''' 함수형 뷰였을 경우에는 첫째, DB에서 쿼리를 통해 데이터를 가져와 객체1을 만들고(Queryset)
 둘째, 딕셔너리 형태로 템플릿에서 사용하게 컨텍스트 변수(변수명:객체1 형식)를 만들고
 셋째, render함수로 지정된 템플릿파일에 컨텍스트 변수를 적용시킨 HTML텍스트를 만들어서
@@ -124,3 +130,36 @@ class SearchFormView(FormView): #search/ url을 처리할 view. formView 제네�
         #마지막에 returen HttpResposeRedirect('url')이라고 쓰이는게 보통인데,
         #이 render함수에 의해 리다이렉트 처리가 되지 않는다.
         #한마디로 한페이지에 보여 주니까, 리다이렉트 처리를 하지 않는다 정도의 의미?
+
+class PostCreatedView(LoginRequiredMixin, CreateView): #bookmarkCreateView와 내용 같음
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    initial = {'slug':'auto-filling-do-no-input'}
+    #Post모델의 save()메소드에 의해 slug는 자동 생성됨. 그래서 입력하지 말라는 초기값을 넣어줌
+    #fields = ['title', 'description', 'content', 'tag']. 아니면 이처럼 아예 빼버려도 됨
+    success_url = reverse_lazy('blog:index')
+
+    def form_valid(self, form): #owner항목에 로그인 한 사람을 넣도록 form_valid재정의
+        form.instance.owner = self.request.user
+        return super(PostCreatedView, self).form_valid(form)
+
+class PostChangeLV(LoginRequiredMixin, ListView):
+    #북마크 테이블에서 현재 로그인 사용자에게 콘텐츠 변경이 허용된 객체만 보여주는 뷰
+    #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
+    template_name = 'blog/post_change_list.html'
+
+    def get_queryset(self):#현재 로그인된 사용자가 owner로 되어 있는 리스트만 뽑아내 리스트로 보여줌
+        return Post.objects.filter(owner=self.request.user)
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    #지정된 레코드 하나를 폼으로 보여주고, 수정된 내용의 유효성 검사 후, 에러없으면 테이블에 추가
+    #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    success_url = reverse_lazy('bookmark:index')#수정 완료 후 이동할 url
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    #기존 레코드 중에서 지정된 레코드를 삭제할 것인지 여부를 묻는 싸이트를 보여준다.
+    #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
+    model = Post
+    success_url = reverse_lazy('blog:index')

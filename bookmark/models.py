@@ -5,6 +5,7 @@ from six import python_2_unicode_compatible #python2.x대의 문자열 처리 �
 from django.db import models
 #1새로운 DB를 만들려면 모델에 클래스를 만들고, 이를 admin사이트에 등록해야함
 #2 manage.py파일을 이용해 makemigrations 실행, 변경사항 파일을 만들고, migrate로 이를 적용시킴
+from django.contrib.auth.models import User
 
 @python_2_unicode_compatible #함수를 인자로 갖는 또다른 함수(혹은 클래스)
 #데코레이터. 파이썬이 함수를 또다른 함수의 '인자'로 쓸수 있다는 특징 활용(1st citizen class).
@@ -17,6 +18,10 @@ class Bookmark(models.Model): #데이터베이스를 지칭하는 클래스. 장
     #옵션에 db_column값을 않넣으면 컬럼명에 변수명이 자동으로 들어감
     url = models.URLField('url', unique=True) #컬럼의 별칭 'url'(Field.verbose_name).
     # url은 단 하나만 있어야 하므로 unique를 True로
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE, blank=True)
+    #bookmark의 생성은 로그인 회원만 할 수 있도록 하기 위해, User테이블을 가져와 참조키롤 설정
+    #기존에 만든 콘텐츠는 값이 null이므로 null을 True해놔야 함. 사용자가 지워지면 해당 bookmark가
+    #따라서 지워지도록 on_delete항목을 CASCADE로 설정(필수). 따라지워지지 않으려면 PROTECT하면 됨
 
     def __str__(self): #admin사이트나 장고쉘에서 모델(테이블)의 개별 객체(row요소)를 표시할 때, '이것은
                    #어떤 객체다'라고 표시할 필요가 있는데(제목줄에 객체값을 쓰고, 아래 변경항목 나타낼 때)

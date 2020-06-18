@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 from blog.views import *
 
 app_name = 'blog' #루트 url에서 namespace로 지정한 이름. 꼭 써줘야 defualt url이 됨
@@ -29,4 +30,11 @@ urlpatterns =[
     url(r'^search/$', SearchFormView.as_view(), name='search'),
     #폼을 보여주고 폼에있는 데이터를 처리하기 위해 FormView를 상속받아 정의
     #blog/search/
+    path('add/', views.PostCreateView.as_view(), name='add'),  # /Post/add/
+    path('change/', views.PostChangeLV.as_view(), name='change'),  # /Post/change/
+    path('<int:pk>/update/', views.PostUpdateView.as_view(), name='update'),  # /Post/99/update/
+    path('<int:pk>/delete/', views.PostDeleteView.as_view(), name='delete'),  # /Post/99/delete/
+    # url()은 re_url로 대체. views.뷰클래스명.as_view()쓰는 패턴에 유의
+
 ]
+
