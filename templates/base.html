@@ -53,15 +53,15 @@ user모델은 is_active, get_short_name, get_username같은 컬럼을 가지고 
 <!--메뉴부분에 나타날 앱이동 메뉴-->
     <li><a href="#">Add&bigtriangledown;</a>
         <ul>
-            <li><a href="#">Bookmark</a></li>
-            <li><a href="#">Blog</a></li>
+            <li><a href="{% url 'bookmark:add' %}">Bookmark</a></li>
+            <li><a href="{% url 'blog:add' %}">Post</a></li>
             <li><a href="#">Photo</a></li>
         </ul>
     </li>
     <li><a href="#">Change&bigtriangledown;</a>
         <ul>
-            <li><a href="#">Bookmark</a></li>
-            <li><a href="#">Blog</a></li>
+            <li><a href="{% url 'bookmark:add' %}">Bookmark</a></li>
+            <li><a href="{% url 'blog:add' %}">Post</a></li>
             <li><a href="#">Photo</a></li>
         </ul>
     </li>

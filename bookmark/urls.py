@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import path, re_path
 #일반적인 패턴은 path, 복잡한 정규식을 써야할 땐 re_path를 사용
 from bookmark.views import BookmarkDV, BookmarkLV
+from . import views #path를 쓸때는 이구문을 반드시 넣어야 함
 
 app_name = 'bookmark' #루트 url에서 namespace로 지정한 부분. 이 부분이 default url이 됨
 

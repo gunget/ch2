@@ -16,7 +16,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 #reverse()함수를 쓰려면 url.py가 메모리에 로딩되어야 하는데, view처리 단계에서 로딩되지 않을수도
 #있으므로 reverse_lazy함수를 썼다고 함
-from mainsite.views import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+# from mainsite.views import LoginRequiredMixin. 저자는 자기가 LoginRequiredMixin을
+#직접 정의했지만, 이후에 장고에서 직접 만든 듯. 원리는 마찬가지로 Login~~를 상속한 view가 있다면
+#해당 클래스의 as_view함수에 login_required를 적용시켜 반환시킴
+from mainsite.views import OwnerOnlyMixin
 
 ''' 함수형 뷰였을 경우에는 첫째, DB에서 쿼리를 통해 데이터를 가져와 객체1을 만들고(Queryset)
 둘째, 딕셔너리 형태로 템플릿에서 사용하게 컨텍스트 변수(변수명:객체1 형식)를 만들고
@@ -151,14 +155,14 @@ class PostChangeLV(LoginRequiredMixin, ListView):
     def get_queryset(self):#현재 로그인된 사용자가 owner로 되어 있는 리스트만 뽑아내 리스트로 보여줌
         return Post.objects.filter(owner=self.request.user)
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(OwnerOnlyMixin, UpdateView):
     #지정된 레코드 하나를 폼으로 보여주고, 수정된 내용의 유효성 검사 후, 에러없으면 테이블에 추가
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Post
     fields = ['title', 'slug', 'description', 'content', 'tag']
     success_url = reverse_lazy('bookmark:index')#수정 완료 후 이동할 url
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(OwnerOnlyMixin, DeleteView):
     #기존 레코드 중에서 지정된 레코드를 삭제할 것인지 여부를 묻는 싸이트를 보여준다.
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Post

@@ -1,0 +1,18 @@
+<!--정말로 지울 것이냐라고 묻는 페이지-->
+
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}bookmark_confirm_delete.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% block content %}
+<div id="content">
+    <h1>Bookmark Delete</h1>
+    <form action="." method="post">{% csrf_token %}
+        <p>Are you sure that you want to delete {{ object }}</p>
+<!--        object는 delete뷰에서 넘어온 객체 -->
+        <input type="submit" value="Confirm">
+    </form>
+<!--    Confirm버튼을 누르면 이 값을 가지고 DeleteView제네릭 뷰에서 테이블을 지우는 명령을 수행하는 듯-->
+</div>
+{% endblock %}

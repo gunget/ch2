@@ -1,0 +1,44 @@
+<!--에디트 제네릭뷰도 뷰에서 템플릿 네임을 별도로 지정하지 않으면 정해진 html명이 있다.-->
+<!--CreateView와 UpdateView는 모두 모델소문자_form.html로 같은 템플릿명을 사용한다.
+view가 달라 처리하는 내용은 다르지만, template가 같으므로 사용자에게 표현하는 형태는 똑같다.-->
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}bookmark_form.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% load static %}
+{% block extrastyle %}{% static "css/form.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <h1>Bookmark Creat/Update - {{user}}</h1>
+    <form action="." method="post">{% csrf_token %}
+<!--폼 제출시 post방식으로 현재와 같은 url('.')로 요청이 전송됨-->
+    {% if form.errors %}
+<!--        폼에 입력된 내용에 에러가 있다면. form클래스에 error라는 api가 있음-->
+        <p class="errornote">Wrong! Please correct the error(s) below.</p>
+    {% endif %}
+
+    <p>This is a creation or update form for your bookmark.</p>
+
+    <fieldset class="aligned">
+<!--    필드셋테그는 폼에서 비슷한 요소들을 그룹으로 묶어주는 역할을 함. 묶은 요소 주변으로 테두리를 그려줌-->
+<!--        legend태그를 이용하면 캡션을 추가할 수 있음-->
+        <div class="form-row">
+            {{form.title.label_tag}} {{form.title}}
+<!--    생성/수정처리를 위해 form을 사용(bookmark모델을 사용해 장고가 만듦). view에서 정의한 title필드값이 표시될 것-->
+        </div>
+        <div class="form-row">
+            {{form.url.label_tag}} {{form.url}}
+<!--        url입력요소를 출력. form.url은 url필드의 위젯을 출력한다고 함
+form의 필드는 각각 특정한 위젯(html에 보여줄 특정형태)으로 매핑되있다고 함. -->
+        </div>
+    </fieldset>
+    <div class="submit-row">
+        <input type="submit" value="Submit">
+<!--        제출버튼 만들기. 이름은 Submit-->
+    </div>
+    <script type="text/javascript">document.getElementById('id_title').focus();</script>
+<!--자바스크립트로 title입력요소에 커서를 위치시킨다. form.title에서 title이 html상 id로서 처리되는 듯.-->    </form>
+</div>
+{% endblock %}

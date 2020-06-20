@@ -132,3 +132,7 @@ td, th {
     padding: 5px 15px; /* 2개값만 주어지면 '상하', '좌우'로 적용된다*/
     font-family:"Lucida Grande", Verdana, Arial, sans-serif; /*폰트로 쓸 폰트 종류선언*/
 }
+
+table.change-list, table.change-list th, table.change-list td {
+    border: 1px solid #ccc;
+}

@@ -7,7 +7,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 #reverse()함수를 쓰려면 url.py가 메모리에 로딩되어야 하는데, view처리 단계에서 로딩되지 않을수도
 #있으므로 reverse_lazy함수를 썼다고 함
-from mainsite.views import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from mainsite.views import OwnerOnlyMixin
 #@login_required()데코레이터 기능을 클래스에 적용 시 사용한다고 함
 
 #----list view : 북마크 테이블의 레코드리스트를 보여주라는 처리방식
@@ -54,14 +55,14 @@ class BookmarkChangeLV(LoginRequiredMixin, ListView):
     def get_queryset(self):#현재 로그인된 사용자가 owner로 되어 있는 리스트만 뽑아내 리스트로 보여줌
         return Bookmark.objects.filter(owner=self.request.user)
 
-class BookmarkUpdateView(LoginRequiredMixin, UpdateView):
+class BookmarkUpdateView(OwnerOnlyMixin, UpdateView):
     #지정된 레코드 하나를 폼으로 보여주고, 수정된 내용의 유효성 검사 후, 에러없으면 테이블에 추가
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Bookmark
     fields = ['title', 'url']
     success_url = reverse_lazy('bookmark:index')#수정 완료 후 이동할 url
 
-class BookmarkDeleteView(LoginRequiredMixin, DeleteView):
+class BookmarkDeleteView(OwnerOnlyMixin, DeleteView):
     #기존 레코드 중에서 지정된 레코드를 삭제할 것인지 여부를 묻는 싸이트를 보여준다.
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Bookmark
