@@ -33,7 +33,8 @@ class UserCreateView(CreateView):
 class UserCreateDoneTV(TemplateView): #/account/register/done/를 처리하는 view
     template_name = 'registration/register_done.html'#가입처리 완료후 보여줄 템플릿 파일명 지정
 
-#글쓴이만 수정/삭제 할 수 있도록 만든 클래스
+#글쓴이만 수정/삭제 할 수 있도록 만든 클래스. 파이참상에서는 함수를 찾을 수 없다 나오지만, 실제로 실행해보면
+#정상적으로 동작. 아마도 실제 실행하는 과정에서 해당 함수들이 미리 호출되어 처리되는 듯.
 class OwnerOnlyMixin(AccessMixin):
     raise_exception = True
     permission_denied_message = "Owner only can update/delete the object"
@@ -45,7 +46,7 @@ class OwnerOnlyMixin(AccessMixin):
         return super().get(request, *args, **kwargs)
 
 # # Login~~클래스를 상속받는 클래스의 as_view()메소드를 호출하면, 다중상속 구조의 메소드를
-# #호출하는 순서에 의해 view클래스의 as_view메소드에 login_required()가 적용됨(과거방식)
+# #호출하는 순서에 의해 view클래스의 as_view메소드에 login_required()가 적용됨(과거방식. 아예 새로 mixin제공)
 # class LoginRequiredMixin(object): #login_required함수는 함수에만 적용가능. object기능 상속으로 처리
 #     #따라서 클래스형 뷰에서는 이를 상속받아 사용하면 login_required데코레이터 기능을 쓸 수 있음
 #     @classmethod

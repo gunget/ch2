@@ -135,7 +135,7 @@ class SearchFormView(FormView): #search/ url을 처리할 view. formView 제네�
         #이 render함수에 의해 리다이렉트 처리가 되지 않는다.
         #한마디로 한페이지에 보여 주니까, 리다이렉트 처리를 하지 않는다 정도의 의미?
 
-class PostCreatedView(LoginRequiredMixin, CreateView): #bookmarkCreateView와 내용 같음
+class PostCreateView(LoginRequiredMixin, CreateView): #bookmarkCreateView와 내용 같음
     model = Post
     fields = ['title', 'slug', 'description', 'content', 'tag']
     initial = {'slug':'auto-filling-do-no-input'}
@@ -145,7 +145,7 @@ class PostCreatedView(LoginRequiredMixin, CreateView): #bookmarkCreateView와 �
 
     def form_valid(self, form): #owner항목에 로그인 한 사람을 넣도록 form_valid재정의
         form.instance.owner = self.request.user
-        return super(PostCreatedView, self).form_valid(form)
+        return super(PostCreateView, self).form_valid(form)
 
 class PostChangeLV(LoginRequiredMixin, ListView):
     #북마크 테이블에서 현재 로그인 사용자에게 콘텐츠 변경이 허용된 객체만 보여주는 뷰

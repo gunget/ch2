@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 from blog.views import *
+from . import views
 
 app_name = 'blog' #루트 url에서 namespace로 지정한 이름. 꼭 써줘야 defualt url이 됨
 
