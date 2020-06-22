@@ -88,6 +88,11 @@ class AlbumPhotoCV(LoginRequiredMixin, CreateView):
             #formset이란 keyword에 request의 Post, FILE파라미터를 인라인 폼셋형태로 추가, context확장.
             #두 속성을 포함하여, 사진 폼셋을 앨범 context변수의 formset이란 속성에 인라인 폼셋형태로 지정한다.
             #하나의 앨범폼에 사진폼셋이 주르륵 붙어서 나타나도록 설정하기 위함인 듯
+
+            #보통 뷰는 return render(response, '.html', context)를 반환하는데, 이때 폼 뷰의 경우
+            #context = {'form':form}으로 보내진다. 여기서 form은 form객체. 헌데 여기선 인라인폼셋을 사용,
+            #context ={'form':form, 'formset':PhotoIn~~}을 콘텍스트 변수로 템플릿에 반환하는 것으로 보인
+            #다. 따라서 템플릿에선 form과 formset을 변수명으로 다 사용할 수 있다.
             '''
             Django uses request and response objects to pass state through the system.
             When a page is requested, Django creates an [HttpRequest object] that contains
