@@ -43,6 +43,8 @@ class ThumbnailImageFieldFile(ImageFieldFile):
                                       #경로명 중 파일명을 돌려주는 함수 인듯. 파일명.thumb.jpg가 리턴됨
     thumb_url = property(_get_thumb_url)
 
+        #저장하면 파일을 부모클래스의 save()메소드로 저장하고, '박스+이미지'형태의 썸네일을 만든다음, 이것도
+        #같은 경로에 저장한다. 즉 두가지 파일이 저장되도록 함수 설정
     def save(self, name, content, save=True): #이 클래스에서 파일을 저장하고 생성하는 메소드
         #save=True 단순히 초기값을 설정 한 것
         super(ThumbnailImageFieldFile, self).save(name, content, save) #부모 ImageFieldFile클래스의
@@ -55,7 +57,7 @@ class ThumbnailImageFieldFile(ImageFieldFile):
         #싶을 때, super()를 사용한다. 다중상속(특히 a-b-d,a-c-d로 이어지는 마름모 상속)시 d호출시 a가
         #중복 호출될 수 있는데, python2.x에서는 상속 시 super(d, self)를 써주면 이를 막을 수 있다.
         #python3.x에서는 그냥 편하게 super()라고만 호출해줘도 중복호출 현상이 일어나지 않는다.
-        img = Image.open(self.path) #필로우에서 이미지 불러오기
+        # img = Image.open(self.path) #필로우에서 이미지 불러오기
 
         img = Image.open(self.path)
         size = (128, 128)
@@ -63,7 +65,7 @@ class ThumbnailImageFieldFile(ImageFieldFile):
         background = Image.new('RGB', size, (255, 255, 255))
         box = (int((size[0]-img.size[0])/2), int((size[1]-img.size[1])/2))
         background.paste(img, box)
-        background.save(self.thumb_path, 'JPEG')
+        background.save(self.thumb_path, 'JPEG') #pillow의 save메소드임
 
         # jpeg가 RGBA모드에는 적용되지 않아 코드에는 개정판 내용 변경 적용. 변경코드는 jiff도 적용가능.
         # size = (128, 128)

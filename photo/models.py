@@ -16,10 +16,14 @@ from django.urls import reverse
 from photo.fields import ThumbnailImageField
 #원본이미지와 썸네일을 모두 저장할 수 있는 커스텀 필드(제공해주는 서드파티가 없으니 직접 제작).
 
+from django.contrib.auth.models import User
+
 @python_2_unicode_compatible
 class Album(models.Model):#앨범과 포토의 관계는 1:N관계. 포토에서는 앨범의 Foreign키로 앨범에 대한 소속 구분
     name = models.CharField(max_length=50)
     description = models.CharField('One Line Description', max_length=100, blank=True)
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    #사용자만 생성할 수 있도록 소유자필드 추가
 
     class Meta:#필드속성 외에 필요한 테이블의 파라미터를 정의하기 위해, 내부클래스 선언(이또한 상속받는 것)
         ordering = ['name'] #모델객체의 리스트 출력시 이름순(오름차순)으로 정렬
@@ -48,6 +52,9 @@ class Photo(models.Model): #db에는 경로만 저장되고 파일을 media폴�
     description = models.TextField('Photo Description', blank=True)
     upload_date = models.DateTimeField('Upload Date', auto_now_add=True)
     #auto~~ 객체가 생성될 때 시간을 자동으로 저장. 즉 사진이 업로드 될 때 시간을 자동으로 저장
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    #사용자만 생성할 수 있도록 소유자필드 추가
+
 
     class Meta:#필드속성 외에 필요한 테이블의 파라미터를 정의하기 위해, 내부클래스 선언(이또한 상속받는 것)
         ordering = ['title'] #모델객체의 리스트 출력시 이름기준 오름차순으로

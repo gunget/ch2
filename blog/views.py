@@ -35,6 +35,17 @@ object_list로, 템플릿파일은 모델명소문자_list.html(post_list.html)�
 둘째 어떤 이름의 템플릿으로 변수를 넘겨주는지를 파악해야 한다. 그래야 템플릿을 작성할 때 올바른 변수들을 활용할 수 있다.
 이는 장고 라이브러리에서 찾아 볼 수밖에 없다(from의 항목의 라이브러리를 검색하면 클래스들은 세부설명에 있다).  
 '''
+'''
+context는 일반적으로 object_list란 이름으로 담겨 template에 전달되는데, 'context_object_name='을
+지정하면 내가 원하는 변수명으로 넘길 수 있다. 또한 context에 추가적인 데이터를 넣고 싶을 경우,
+    def get_context_data(self, **kwargs):
+        # 기본 구현을 호출해 context를 가져온다.
+        context = super(PublisherDetail, self).get_context_data(**kwargs)
+        # 모든 책을 쿼리한 집합을 context 객체에 추가한다.
+        context['book_list'] = Book.objects.all()
+        return context
+    처럼해서 추가적인 데이터를 넣을 수 있다(book_list항목을 넣어준 것) 
+'''
 
 #template View
 class TagTV(TemplateView):

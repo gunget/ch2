@@ -1,0 +1,76 @@
+<!--에디트 제네릭뷰도 뷰에서 템플릿 네임을 별도로 지정하지 않으면 정해진 html명이 있다.-->
+<!--CreateView와 UpdateView는 모두 모델소문자_form.html로 같은 템플릿명을 사용한다.
+view가 달라 처리하는 내용은 다르지만, template가 같으므로 사용자에게 표현하는 형태는 똑같다.-->
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}album_form.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% load static %}
+{% block extrastyle %}{% static "css/form.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <h1>Album-Photo Inline Formset</h1>
+<!--    form변수는 Album모델을 사용해 장고가 내부적으로 만들어주는 폼 객체. form.name은 폼객체의 네임필드.-->
+<!--    form은 제네릭 editView를 사용했을 경우, 템플릿에서 사용할 수 있도록 넘겨준 폼의 집합.
+        이때 폼셋 또한 같이 넘겨주는 것으로 추정-->
+<!--    formset은 form과 연결시킨 form객체들(여기선 photo모델을 사용해 만든 것)-->
+        {% if form.is_multipart or formset.is_multipart %}
+<!--    폼이나 폼셋이 멀티인코딩이 필요하다면. 이미지 필드가 있으므로 멀티인코딩 필요.-->
+        <form enctype="multipart/form-data" method="post" action=".">
+<!--    폼데이터를 서버로 전송할때 어떤 방식으로 인코딩할지 결정 하는게 enctype. multi~~는 인코딩 없이
+그대로 전송하는 방식으로 파일이나 이미지 등의 바이너리 파일을 전송할때 많이 사용-->
+        {% else %}
+        <form action="." method="post">
+        {% endif %}
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <p class="errornote">Wrong! Please correct the FORM error(s) below.</p>
+<!--            앨범 폼에 에러가 있다면-->
+        {% endif %}
+        {% if formset.errors %}
+            <p class="errornote">Wrong! Please correct the FORMSET error(s) below.</p>
+<!--            사진 폼에 에러가 있다면-->
+        {% endif %}
+
+            <h4>Create or Update Album Contents</h4>
+            <fieldset class="alinged">
+            <div class="form-row">
+                {{form.name.label_tag}} {{form.name}}
+<!--                앨범1: 앨범이름-->
+            </div>
+            <div class="form-row">
+                {{form.description.label_tag}} {{form.description}}
+            </div>
+            </fieldset>
+
+            <h4>Create or Update Photo Contents</h4>
+            {{formset.management_form}}
+<!--            장고엔진이 formset에 들어있는 폼의 개수를 알수 있도록, 반드시 이 변수를 추가해야 함. 그래야
+                폼셋에 있는 각 폼을 다룰 수 있음-->
+            {% for form in formset %}
+<!--            폼셋에 있는 각 폼(사진폼)을 순회 하면서 필요한 폼의 필드 항목들을 출력-->
+                {{form.id}}
+                <fieldset class="alinged">
+                    <div class="form-row">
+                        {{form.image.label_tag}} {{form.image}}
+                    </div>
+                    <div class="form-row">
+                        {{form.title.label_tag}} {{form.title}}
+                    </div>
+                    <div class="form-row">
+                        {{form.description.label_tag}} {{form.description}}
+                    </div>
+                </fieldset>
+            {% endfor %}
+            <div class="submit-row">
+                <input type="submit" value="Submit"/>
+            </div>
+            <script type="text/javascript">document.getElementById('id_name').focus();</script>
+        </form>
+</div>
+<!--위에 <form>이 if로 선택하게끔 되어있어서 </form>은 하나밖에 안 필요. 헌데, 일반 HTML은 템플릿태그를
+해석할 수 없으므로 에러로 표시됨-->
+{% endblock %}

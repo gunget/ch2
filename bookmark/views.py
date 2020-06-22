@@ -47,7 +47,7 @@ class BookmarkCreateView(LoginRequiredMixin, CreateView):
         return super(BookmarkCreateView, self).form_valid(form)
     #제출된 form의 유효성 검사를 마친 후 이상이 없으면 form_valid메소드를 호출 함(CreateView의 자동 기능)
 
-class BookmarkChangeLV(LoginRequiredMixin, ListView):
+class BookmarkChangeLV(LoginRequiredMixin, ListView): #리스트 보여주기 뷰
     #북마크 테이블에서 현재 로그인 사용자에게 콘텐츠 변경이 허용된 객체만 보여주는 뷰
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     template_name = 'bookmark/bookmark_change_list.html'
@@ -55,7 +55,7 @@ class BookmarkChangeLV(LoginRequiredMixin, ListView):
     def get_queryset(self):#현재 로그인된 사용자가 owner로 되어 있는 리스트만 뽑아내 리스트로 보여줌
         return Bookmark.objects.filter(owner=self.request.user)
 
-class BookmarkUpdateView(OwnerOnlyMixin, UpdateView):
+class BookmarkUpdateView(OwnerOnlyMixin, UpdateView):#실제로 바꾸기 할 뷰
     #지정된 레코드 하나를 폼으로 보여주고, 수정된 내용의 유효성 검사 후, 에러없으면 테이블에 추가
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Bookmark
