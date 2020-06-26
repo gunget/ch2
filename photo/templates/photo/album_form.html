@@ -14,7 +14,7 @@ view가 달라 처리하는 내용은 다르지만, template가 같으므로 사
     <h1>Album-Photo Inline Formset</h1>
 <!--    form변수는 Album모델을 사용해 장고가 내부적으로 만들어주는 폼 객체. form.name은 폼객체의 네임필드.-->
 <!--    form은 제네릭 editView를 사용했을 경우, 템플릿에서 사용할 수 있도록 넘겨준 콘텍스트 변수('form':form).
-        이때 폼셋 또한 같이 넘겨주는 것으로 추정-->
+        이때 폼셋 또한 같이 넘겨주는 것으로 추정(-->
 <!--    formset은 form과 연결시킨 form객체들(여기선 photo모델을 사용해 만든 것)-->
         {% if form.is_multipart or formset.is_multipart %}
 <!--    폼이나 폼셋이 멀티인코딩이 필요하다면. 이미지 필드가 있으므로 멀티인코딩 필요.-->

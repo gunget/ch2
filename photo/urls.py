@@ -17,16 +17,22 @@ urlpatterns =[
 
     path('album/add/', views.AlbumPhotoCV.as_view(), name='album_add'),
     #앨범과 포토를 한번에 처리하는 인라인 모델 폼을 처리하는 뷰. 생성용도.
+    # album_form.html에서 처리
     path('album/change/', views.AlbumChangeLV.as_view(), name='album_change'),
     #바꿀 수 있는 리스트를 단순 표시해주는 뷰
+    # album_change_list.html에서 처리
     path('album/<int:pk>/update/', views.AlbumPhotoUV.as_view(), name='album_update'),
     #앨범과 포토를 한번에 처리하는 인라인 모델 폼을 처리하는 뷰. 변경 용도.
+    # album_form.html에서 처리
     path('album/<int:pk>/delete/', views.AlbumDeleteView.as_view(), name='album_delete'),
+    # album_confirm_delete.html에서 처리
 
     path('photo/add/', views.PhotoCreateView.as_view(), name='photo_add'),
-    #앨범과 포토를 한번에 처리하는 인라인 모델 폼을 처리하는 뷰
+    #앨범과 포토를 한번에 처리하는 인라인 모델 폼을 처리하는 뷰. photo_form.html에서 처리
     path('photo/change/', views.PhotoChangeLV.as_view(), name='photo_change'),
+    #photo_change_list.html에서 처리
     path('photo/<int:pk>/update/', views.PhotoUpdateView.as_view(), name='photo_update'),
+    #photo_form.html에서 처리
     path('photo/<int:pk>/delete/', views.PhotoDeleteView.as_view(), name='photo_delete'),
-
+    #photo_confirm_delete.html에서 처리
 ]

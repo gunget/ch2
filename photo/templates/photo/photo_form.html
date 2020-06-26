@@ -1,0 +1,56 @@
+<!--에디트 제네릭뷰도 뷰에서 템플릿 네임을 별도로 지정하지 않으면 정해진 html명이 있다.-->
+<!--CreateView와 UpdateView는 모두 모델소문자_form.html로 같은 템플릿명을 사용한다.
+view가 달라 처리하는 내용은 다르지만, template가 같으므로 사용자에게 표현하는 형태는 똑같다.-->
+{% extends 'base.html' %}
+<!-- base.html을 상속 받음. 인용부호 필수-->
+{% block title%}Photo_form.html{% endblock %}
+<!--base에서 블록으로 지정했던 부분만 간단하게 파내서 바꿈-->
+
+{% load static %}
+{% block extrastyle %}{% static "css/form.css" %}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <h1>Photo Creat/Update - {{user}}</h1>
+    {% if form.is_multipart %}
+        <form enctype="multipart/form-data" action="." method="post">{% csrf_token %}
+<!--파일을 업로드할 경우 enctype을 multipart~~로 지정해야 함-->
+    {% else %}
+        <form method="post" action=".">
+<!--폼 제출시 post방식으로 현재와 같은 url('.')로 요청이 전송됨-->
+    {% endif %}{% csrf_token %}
+
+    {% if form.errors %}
+<!--        폼에 입력된 내용에 에러가 있다면. form클래스에 error라는 api가 있음-->
+        <p class="errornote">Wrong! Please correct the error(s) below.</p>
+    {% endif %}
+
+    <p>This is a creation or update form for your photo.</p>
+
+    <fieldset class="aligned">
+<!--    필드셋테그는 폼에서 비슷한 요소들을 그룹으로 묶어주는 역할을 함. 묶은 요소 주변으로 테두리를 그려줌-->
+<!--        legend태그를 이용하면 캡션을 추가할 수 있음-->
+        <div class="form-row">
+            {{form.image.label_tag}} {{form.image}}
+        </div>
+        <div class="form-row">
+            {{form.album.label_tag}} {{form.album}}
+<!--        앨범을 선택하는 드롭다운 박스 위젯이 출력됨. 1:N의 관계라 photo에서도 album을 선택할 수 있도록 해줌 -->
+            <button type="button"><a href="{% url 'photo:album_add' %}">Add Album</a> </button>
+        </div>
+        <div class="form-row">
+            {{form.title.label_tag}} {{form.title}}
+        </div>
+        <div class="form-row">
+            {{form.description.label_tag}} {{form.description}}
+        </div>
+    </fieldset>
+    <div class="submit-row">
+        <input type="submit" value="Submit">
+<!--        제출버튼 만들기. 이름은 Submit-->
+    </div>
+    <script type="text/javascript">document.getElementById('id_title').focus();</script>
+<!--자바스크립트로 title입력요소에 커서를 위치시킨다. form.title에서 title이 html상 id로서 처리되는 듯.-->
+    </form>
+</div>
+{% endblock %}

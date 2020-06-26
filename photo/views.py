@@ -36,14 +36,12 @@ class PhotoChangeLV(LoginRequiredMixin, ListView):
 
 class PhotoUpdateView(OwnerOnlyMixin, UpdateView):#실제로 바꾸기 할 뷰
     #지정된 레코드 하나를 폼으로 보여주고, 수정된 내용의 유효성 검사 후, 에러없으면 테이블에 추가
-    #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Photo
     fields = ['album', 'title', 'image', 'description']
     success_url = reverse_lazy('bookmark:index')#수정 완료 후 이동할 url
 
 class PhotoDeleteView(OwnerOnlyMixin, DeleteView):
     #기존 레코드 중에서 지정된 레코드를 삭제할 것인지 여부를 묻는 싸이트를 보여준다.
-    #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Photo
     success_url = reverse_lazy('photo:index')
 
@@ -81,6 +79,11 @@ class AlbumPhotoCV(LoginRequiredMixin, CreateView):
             return context
         처럼해서 추가적인 데이터를 넣을 수 있다(book_list항목을 넣어준 것) 
     '''
+    ''' super().get_context_data(**kwargs)하면 호출되는 변수 값들. ListView를 상속받은 상태에서 불러온 예.
+    {'paginator': None, 'page_obj': None, 'is_paginated': False, 'object_list': <QuerySet 
+    [<Video: django 2.2>, <Video: django 1.11>]>, 'video_list': <QuerySet [<Video: django 2.2>, <Video: django 1.11>]>, 
+    'view': <videos.views.VideoListView object at 0x106292cc0>}
+    '''
     def get_context_data(self, **kwargs): #context변수의 속성을 추가하기 위해 오버라이딩
         context = super().get_context_data(**kwargs)#부모것을 먼저 부른 뒤
         if self.request.Post:
@@ -89,7 +92,7 @@ class AlbumPhotoCV(LoginRequiredMixin, CreateView):
             #두 속성을 포함하여, 사진 폼셋을 앨범 context변수의 formset이란 속성에 인라인 폼셋형태로 지정한다.
             #하나의 앨범폼에 사진폼셋이 주르륵 붙어서 나타나도록 설정하기 위함인 듯
 
-            #보통 뷰는 return render(response, '.html', context)를 반환하는데, 이때 폼 뷰의 경우
+            #보통 뷰는 return render(response, '.html', context)를 반환하는데, 이때 폼 뷰(edit view)의 경우
             #context = {'form':form}으로 보내진다. 여기서 form은 form객체. 헌데 여기선 인라인폼셋을 사용,
             #context ={'form':form, 'formset':PhotoIn~~}을 콘텍스트 변수로 템플릿에 반환하는 것으로 보인
             #다. 따라서 템플릿에선 form과 formset을 변수명으로 다 사용할 수 있다.
@@ -111,7 +114,7 @@ class AlbumPhotoCV(LoginRequiredMixin, CreateView):
     #폼에 제출된 내용에 유효성 검사를 실행 후, 이상이 없으면 form_valid함수 실행
     #form은 앨범의 폼이고, formset은 form에 따라붙은 '사진 폼들'이라고 생각하고 접근해야 이해가 빠름
     def form_valid(self, form): #form은 CreateView가 만들어 표시했던 입력폼
-        form.instance.owner = self.request.user #앨범의 oㄴwner필드에 사용자를 넣어라
+        form.instance.owner = self.request.user #앨범의 owner필드에 사용자를 넣어라
         context = self.get_context_data() #context변수를 위에서 지정한 것처럼 확장
         formset = context['formset'] #그중 formset 부분만 추출해서 변수화(사진 폼만 처리하기 위해)
         for photoform in formset: #폼셋에 들어있는 사진 폼을 각각 호출

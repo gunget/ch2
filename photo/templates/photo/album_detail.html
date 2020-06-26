@@ -14,6 +14,9 @@
     <hr/>
     <div class="album-detail">
         {% for photo in object.photo_set.all %}
+<!--        1:N설정시 N에해당하는 모델은 모델명소문자_set으로 소속된 N개의 요소를 불러올 수 있는 듯.
+question과 choice의 관계에서도 qusetion의 object에 소속된 choice를 템블릿에서 부를 때,
+object.choice_set.all로 불렀었음-->
             <div class="album-detail-photo">
                 <a href="{{photo.get_absolute_url}}">
                     <img class="thumbnail" src="{{photo.image.thumb_url}}"/>
