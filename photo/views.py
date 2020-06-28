@@ -39,7 +39,7 @@ class PhotoUpdateView(OwnerOnlyMixin, UpdateView):#실제로 바꾸기 할 뷰
     #지정된 레코드 하나를 폼으로 보여주고, 수정된 내용의 유효성 검사 후, 에러없으면 테이블에 추가
     model = Photo
     fields = ['album', 'title', 'image', 'description']
-    success_url = reverse_lazy('bookmark:index')#수정 완료 후 이동할 url
+    success_url = reverse_lazy('photo:index')#수정 완료 후 이동할 url
 
 class PhotoDeleteView(OwnerOnlyMixin, DeleteView):
     #기존 레코드 중에서 지정된 레코드를 삭제할 것인지 여부를 묻는 싸이트를 보여준다.
@@ -169,6 +169,7 @@ class AlbumPhotoUV(OwnerOnlyMixin, UpdateView):
     model = Album
     fields = ['name', 'description']
     template_name = 'photo/album_form.html'
+    success_url = reverse_lazy('photo:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -189,7 +190,8 @@ class AlbumPhotoUV(OwnerOnlyMixin, UpdateView):
             self.object = form.save() # 앨범 레코드를 수정
             formset.instance = self.object
             formset.save() #사진 레코드도 수정
-            return redirect(self.object.get_absolute_url()) #ex. photo/album/1/로 리디렉션
+            return redirect(self.get_success_url()) #ex. photo/로 리디렉션
+            # return redirect(self.object.get_absolute_url()) #ex. photo/album/1/로 리디렉션
         else:
             return self.render_to_response(self.get_context_data(form=form))
             #유효하지 않으면 폼과 인라인 폼셋을 다시 보여줌. 이때 내용은 전에 입력한 것 보여줌

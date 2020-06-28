@@ -171,7 +171,7 @@ class PostUpdateView(OwnerOnlyMixin, UpdateView):
     #Log~~을 상속받으므로 login_required()데코레이터의 영향받음(로그인 한 사람 접근 가능)
     model = Post
     fields = ['title', 'slug', 'description', 'content', 'tag']
-    success_url = reverse_lazy('bookmark:index')#수정 완료 후 이동할 url
+    success_url = reverse_lazy('blog:index')#수정 완료 후 이동할 url
 
 class PostDeleteView(OwnerOnlyMixin, DeleteView):
     #기존 레코드 중에서 지정된 레코드를 삭제할 것인지 여부를 묻는 싸이트를 보여준다.
