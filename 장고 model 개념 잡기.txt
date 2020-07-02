@@ -1,0 +1,37 @@
+<장고에서 model 개념잡기>
+
+1. model의 기본적인 표현
+- model 클래스는 DB의 테이블의 역할
+- model의 컬럼(필드)은 field클래스를 상속받아 속성으로 표현
+ . 각 컬럼을 'name = charaterField(max_length = ~~)'로 표현한 것 처럼
+ . 개발자가 커스텀필드를 상속받아 새로운 필드타입을 만들 수도 있음
+ . model의 row(레코드)는 외부에서 만들어지는 인스턴스가 됨
+- model에서 사용하는 속성은 메소드로 정의해서 사용가능
+ . ex. def __str__(self):   def get_absolute_url(self): 의 오버라이딩 처럼.
+ . 이 속성은 테이블단위가 아닌 레코드단위에만 적용되는 함수
+ . 기타 model의 메타데이터 기록을 위해, model class 하위에 메타클래스를 정의해서 사용.
+
+2. 장고의 특이사항
+- DB의 테이블은 보통 테이블 단위로 다루거나, 레코드 단위로 다뤄지는데, 장고의 메소드는
+  오직 레코드 단위에서만 다뤄짐. 곧 테이블의 전체 레코드 숫자를 조회하는 것(read)은 
+  model 자체의 메소드로는 불가능.
+- 이를 위해 장고는 Manager()라는 외부 클래스를 사용.
+ . 모든 model은 하나 이상의  manager를 가짐(클래스를 만들면 objects = model.Manager()
+   가 default로 자동 선언됨)
+ . 이 manager를 통해 테이블 단위의 CRUD가 가능해짐. 다르게 말하면, quaryset 객체는
+  manager()의 실행 결과로 얻어지는 것임(DB에 쿼리를 보내고 그 응답을 받는 역할)
+ . Album.objects.all() => 모델명.매니저객체.매니저객체의 매소드
+ . manager()는 all(), get(), filter(), exclude(), count()등의 메소드를 가짐
+ . view를 작성할 때, context객체를 만드는데, 이를 manager의 objects객체를 통해 하는 것
+
+3. 모델간의 관계
+- 장고의 모델은 1:N, N:N, 1:1로 맺어줄 수 있다.
+ . 한쪽에 foriegn Key 필드를 만들어주면, 다른 한쪽 모델과 자동으로 관계가 설정 된다.
+- 모델간 관계가 맺어지면 각 객체를 조회할 수 있게 되는데, 이 역시 manager()(정확히는
+관계매니저)가 담당한다.
+ . user:album이 1:N의 관계로 맺어졌다면, album_set이라는 관계매니저의 객체로 N에
+  하는 모델의 객체를 호출할 수 있다. 곧 user1.album_set이라고 하면 user1에 물려있는
+  album의 N개의 객체를 모조리 불러 온다.
+ . 역으로 N의 모델에서 1의 객체를 불러오려면, 해당 필드명을 그대로 호출하면 되므로
+  관계매니저가 필요하지 않다. ex. album1.owner (user 모델의 필드명이 owner)
+- 관계매니저는 add(), creat(), remove(), clear()등의 메소드를 바로 써서 관계를 편집할 수 있다.

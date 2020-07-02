@@ -1,14 +1,17 @@
 장고 정적(static)서비스 개념 잡기
 
 1. 장고서비스 개념도
-- 일반적 서비스 모델: client - 웹서버 - wsgi(webserver gateway interface) - 어플리케이션서버
+- 일반적 서비스 모델(소프트웨어 기준)
+ . client - 웹서버 - wsgi(webserver gateway interface) 서버(wsgi규격처리) - 웹 어플리케이션서버(WAS) - DB
 - 웹서버는 정적파일 요청을 주로 처리하고 동적파일 처리 요청시 이를 어플리케이션 서버에
   위임 처리한다.
  . 웹서버와 어플리케이션 서버 사이에는 둘 사이의 데이터 통신을 매개할 인터페이스가 존재
  . 예전에는 CGI(common ~~)가 지금은 wsgi가 이를 담당한다. wsgi의 규약을 지키기만 하면
   언어 종류와 상관없이 어플리케이션서버를 개발할 수 있으므로 지금은 대다수의 서비스가 
   이 형태를 가진다고 함
- . 장고는 uWSGI라는 모듈이 이 역할을 처리한다고 함
+ . 장고는 mod_wsgi, uWSGI, Gunicon라는 WGSI서버가 이 역할을 담당한다고 함(장고 프레임워크에서 제공)
+ . 정리하면 장고가 커버하는 운용 영역은 wsgi서버-WAS-DB까지인 것
+ . 장고의 개념을 설명할 때, wsgi서버를 WAS서버에 포함시켜 설명하기도 함(둘다 장고가 처리하기에).
 - 이는 웹서비스시 일반적인 정적요청 처리는 웹서버(Nginx, apache등)가 담당하고 동적요청
   처리는 장고가 담당한다는 의미. 곧 장고 외에 별도의 웹서버가 필요한 것
 
@@ -20,7 +23,7 @@
  . 실제 서비스 시, setting.py에 'STATIC_ROOT'에 특정 경로를 지정하고 manage.py로
   findstatic과 collectstatic명령을 실행하면, 해당 경로에 모든 static파일들 복사되어
   이후 웹서버가 이를 처리함.
- . media파일을 내용이 실시간으로 변하기에 findstatic명령으론 처리하지 못함. 따로 복사해줘야
+ . media파일은 내용이 실시간으로 변하기에 findstatic명령으론 처리하지 못함. 따로 복사해줘야
   하는 듯
 
 3. 개발시 장고의 static파일 처리
@@ -28,7 +31,7 @@
  . installed_app에 등록된 django.contrib.staticfiles 앱이 이 기능을 담당, runserver에서 static파일을
   처리할 수 있게 해줌(static 태그를 사용해 static파일 호출을 처리). 물론 staticfiles의 위치를 지정해야 함
 - 하지만 media파일의 경우, 위 함수로 처리 불가능. 그래서 마치 실 서비스를 하는 것처럼 웹서버의
-  기능을 수행해줄 함수를 별도로 추가. 그게 from django.conf.urls.static의 static함수. static함수는
+  기능을 수행해줄 함수를 루트urlconf에 별도로 추가(+static()한 것). 그게 from django.conf.urls.static의 static함수. static함수는
   media_root로 지정된 접두사에 해당파일의 경로를 추가해 url을 생성. object.image.url을 템플릿에서 실행하면,
   url_conf에서 이 함수를 실행(django.views.static.serve라는 view가 이를 처리) 해당 파일을 반환해 줌 
   

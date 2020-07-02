@@ -1,0 +1,7 @@
+회원정보
+Ogong2 / 1234%%1234
+
+disqus(댓글 기능) 사이트 
+1. ID:gunget email:gunget@naver.com pw:disqus기본k~형
+2. install disqus on my site 선택한 후, site이름 정하고 billing은 basic선택
+3. 설치된 내 site에서 admin-setting-general로 찾아들어가 'shortname'확인
